@@ -992,7 +992,9 @@ extension StatusItemController {
                     self.refreshProviderSelectionDependentUI(deferRendering: true)
                 }
                 self.requestProviderSwitcherMenuRebuild(menu, provider: provider)
-            })
+            },
+            onRefresh: { [weak self] in self?.refreshNow() },
+            onSettings: { [weak self] in self?.showSettingsGeneral() })
         let item = NSMenuItem()
         item.view = view
         item.isEnabled = false

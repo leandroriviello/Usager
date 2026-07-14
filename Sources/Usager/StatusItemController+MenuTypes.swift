@@ -20,7 +20,7 @@ struct OverviewMenuCardRowView: View {
     @Environment(\.menuItemHighlighted) private var isHighlighted
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 9) {
             HStack(alignment: .firstTextBaseline, spacing: 8) {
                 Text(self.model.providerName)
                     .font(.system(size: 15, weight: .semibold))
@@ -75,8 +75,9 @@ struct OverviewMenuCardRowView: View {
             }
         }
         .padding(.horizontal, UsageMenuCardLayout.horizontalPadding)
-        .padding(.vertical, 12)
+        .padding(.vertical, 10)
         .frame(width: self.width, alignment: .leading)
+        .background(Color.black.opacity(self.isHighlighted ? 0.72 : 0.9))
     }
 }
 
