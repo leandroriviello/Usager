@@ -561,6 +561,9 @@ extension SettingsStore {
         get { self.selectedMenuProviderRaw.flatMap(UsageProvider.init(rawValue:)) }
         set {
             self.selectedMenuProviderRaw = newValue?.rawValue
+            if newValue != nil {
+                self.mergedMenuLastSelectedWasOverview = false
+            }
         }
     }
 
@@ -619,6 +622,9 @@ extension SettingsStore {
         let normalizedActive = Self.normalizeProviders(activeProviders)
         guard self.hasMergedOverviewSelectionPreference else {
             return Array(normalizedActive.prefix(maxVisibleProviders))
+        }
+        if self.mergedOverviewSelectedProviders.isEmpty {
+            return []
         }
         if normalizedActive.count <= maxVisibleProviders,
            !self.mergedOverviewSelectionApplies(to: normalizedActive)

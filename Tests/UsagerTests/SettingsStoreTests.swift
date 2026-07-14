@@ -299,6 +299,7 @@ struct SettingsStoreTests {
             syntheticTokenStore: NoopSyntheticTokenStore())
 
         storeA.selectedMenuProvider = .claude
+        #expect(storeA.mergedMenuLastSelectedWasOverview == false)
 
         let defaultsB = try #require(UserDefaults(suiteName: suite))
         let storeB = SettingsStore(
@@ -376,8 +377,8 @@ struct SettingsStoreTests {
     }
 
     @Test
-    func `resolved merged overview providers defaults to first three when selection empty`() throws {
-        let suite = "SettingsStoreTests-merged-overview-default-first-three"
+    func `resolved merged overview providers defaults to first six when selection empty`() throws {
+        let suite = "SettingsStoreTests-merged-overview-default-first-six"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
         let configStore = testConfigStore(suiteName: suite)
@@ -387,10 +388,18 @@ struct SettingsStoreTests {
             zaiTokenStore: NoopZaiTokenStore(),
             syntheticTokenStore: NoopSyntheticTokenStore())
 
-        let activeProviders: [UsageProvider] = [.codex, .claude, .cursor, .opencode, .warp]
+        let activeProviders: [UsageProvider] = [
+            .codex,
+            .claude,
+            .cursor,
+            .opencode,
+            .warp,
+            .gemini,
+            .copilot,
+        ]
         let resolved = store.resolvedMergedOverviewProviders(activeProviders: activeProviders)
 
-        #expect(resolved == [.codex, .claude, .cursor])
+        #expect(resolved == [.codex, .claude, .cursor, .opencode, .warp, .gemini])
     }
 
     @Test
