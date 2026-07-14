@@ -23,11 +23,11 @@ final class ProviderSwitcherView: NSView {
 
     private let segments: [Segment]
     private let onSelect: (ProviderSwitcherSelection) -> Void
-    private let onRefresh: (() -> Void)?
-    private let onSettings: (() -> Void)?
+    let onRefresh: (() -> Void)?
+    let onSettings: (() -> Void)?
     private let showsIcons: Bool
     private let weeklyRemainingProvider: (UsageProvider) -> Double?
-    private var buttons: [NSButton] = []
+    var buttons: [NSButton] = []
     private var quotaIndicators: [ObjectIdentifier: QuotaIndicator] = [:]
     private var hoverTrackingArea: NSTrackingArea?
     private var segmentWidths: [CGFloat] = []
@@ -107,16 +107,15 @@ final class ProviderSwitcherView: NSView {
             stackedIcons: self.stackedIcons)
         self.rowSpacing = self.stackedIcons ? 4 : 2
         self.rowHeight = Self.switcherButtonHeight(stackedIcons: self.stackedIcons, rowCount: self.rowCount)
-        let height: CGFloat = self.overviewPresentation
-            ? 42
-            : self.rowHeight * CGFloat(self.rowCount)
-            + self.rowSpacing * CGFloat(max(0, self.rowCount - 1))
+        let height = Self.overviewSwitcherHeight(
+            isOverview: self.overviewPresentation,
+            rowHeight: self.rowHeight,
+            rowCount: self.rowCount,
+            rowSpacing: self.rowSpacing)
         self.preferredWidth = width
         super.init(frame: NSRect(x: 0, y: 0, width: width, height: height))
         Self.clearButtonWidthCache()
-        self.wantsLayer = true
-        self.layer?.masksToBounds = false
-        self.layer?.backgroundColor = NSColor.black.withAlphaComponent(0.9).cgColor
+        self.configureBaseAppearance()
 
         func makeButton(index: Int, segment: Segment) -> NSButton {
             let button: NSButton
@@ -213,85 +212,13 @@ final class ProviderSwitcherView: NSView {
             outerPadding: layoutMetrics.outerPadding,
             minimumGap: minimumGap,
             uniformWidth: uniformWidth)
-        if self.overviewPresentation {
-            self.installOverviewHeader()
-        }
+        self.installOverviewHeaderIfNeeded(self.overviewPresentation)
         if width > 0 {
             self.preferredWidth = width
             self.frame.size.width = width
         }
 
         self.updateButtonStyles()
-    }
-
-    private func installOverviewHeader() {
-        self.buttons.forEach { $0.isHidden = true }
-
-        let dot = NSView()
-        dot.wantsLayer = true
-        dot.layer?.backgroundColor = UsagerBrand.signalNS.cgColor
-        dot.layer?.cornerRadius = 4
-        dot.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            dot.widthAnchor.constraint(equalToConstant: 8),
-            dot.heightAnchor.constraint(equalToConstant: 8),
-        ])
-
-        let title = NSTextField(labelWithString: "USAGER")
-        title.font = NSFont.monospacedSystemFont(ofSize: 11, weight: .medium)
-        title.textColor = .white
-
-        let spacer = NSView()
-        spacer.setContentHuggingPriority(.defaultLow, for: .horizontal)
-
-        let localTime = DateFormatter.localizedString(
-            from: Date(),
-            dateStyle: .none,
-            timeStyle: .short)
-        let time = NSTextField(labelWithString: "LOCAL · \(localTime)")
-        time.font = NSFont.monospacedSystemFont(ofSize: 9, weight: .medium)
-        time.textColor = UsagerBrand.secondaryNS
-
-        let refresh = self.overviewHeaderButton(
-            symbol: "arrow.clockwise",
-            toolTip: L("Refresh"),
-            action: #selector(self.handleOverviewRefresh))
-        refresh.isEnabled = self.onRefresh != nil
-
-        let settings = self.overviewHeaderButton(
-            symbol: "gearshape",
-            toolTip: L("Settings…"),
-            action: #selector(self.handleOverviewSettings))
-        settings.isEnabled = self.onSettings != nil
-
-        let stack = NSStackView(views: [dot, title, spacer, time, refresh, settings])
-        stack.orientation = .horizontal
-        stack.alignment = .centerY
-        stack.spacing = 10
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(stack)
-        NSLayoutConstraint.activate([
-            stack.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 14),
-            stack.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -14),
-            stack.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-        ])
-    }
-
-    private func overviewHeaderButton(symbol: String, toolTip: String, action: Selector) -> NSButton {
-        let image = NSImage(systemSymbolName: symbol, accessibilityDescription: toolTip)
-        let button = NSButton(image: image ?? NSImage(), target: self, action: action)
-        button.isBordered = false
-        button.contentTintColor = UsagerBrand.secondaryNS
-        button.toolTip = toolTip
-        return button
-    }
-
-    @objc private func handleOverviewRefresh() {
-        self.onRefresh?()
-    }
-
-    @objc private func handleOverviewSettings() {
-        self.onSettings?()
     }
 
     override func viewDidChangeEffectiveAppearance() {
