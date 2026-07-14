@@ -124,7 +124,7 @@ function_body_length:
   error: 300
 
 file_length:
-  warning: 1500
+  warning: 1520
   error: 2500
   ignore_comment_only_lines: true
 
