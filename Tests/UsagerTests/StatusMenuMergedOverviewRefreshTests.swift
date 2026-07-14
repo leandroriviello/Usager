@@ -11,7 +11,15 @@ struct StatusMenuMergedOverviewRefreshTests {
         let settings = self.makeSettings()
         settings.refreshFrequency = .manual
         settings.mergeIcons = true
-        let activeProviders: Set<UsageProvider> = [.claude, .codex, .cursor, .opencode]
+        let activeProviders: Set<UsageProvider> = [
+            .claude,
+            .codex,
+            .cursor,
+            .opencode,
+            .gemini,
+            .copilot,
+            .warp,
+        ]
         self.enableOnly(activeProviders, settings: settings)
         settings.mergedOverviewSelectedProviders = [.claude, .codex, .cursor]
         settings.mergedMenuLastSelectedWasOverview = true
