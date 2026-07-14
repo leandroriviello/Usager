@@ -21,7 +21,7 @@ read_when:
   refresh path.
 
 ## Adaptive mode
-- `AdaptiveRefreshPolicy` (`Sources/CodexBar/AdaptiveRefreshPolicy.swift`) is a pure function of an `Input`
+- `AdaptiveRefreshPolicy` (`Sources/Usager/AdaptiveRefreshPolicy.swift`) is a pure function of an `Input`
   (current time, last menu-open time, Low Power Mode, thermal state) that returns the next delay and a
   stable `Reason`. It reads no clock and no `ProcessInfo` state itself — `UsageStore.startTimer()` gathers
   those impure signals immediately before each tick.

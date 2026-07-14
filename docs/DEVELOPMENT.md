@@ -6,7 +6,7 @@ read_when:
   - Troubleshooting Keychain prompts in dev
 ---
 
-# CodexBar Development Guide
+# Usager Development Guide
 
 ## Quick Start
 
@@ -28,11 +28,11 @@ read_when:
 
 ### Development Workflow
 
-1. **Make code changes** in `Sources/CodexBar/`
+1. **Make code changes** in `Sources/Usager/`
 2. **Run** `./Scripts/compile_and_run.sh --test` to test, rebuild, and launch
-3. **Check logs** in Console.app (filter by "codexbar")
+3. **Check logs** in Console.app (filter by "usager")
 4. **Optional file log**: enable Debug → Logging → "Enable file logging" to write
-   `~/Library/Logs/CodexBar/CodexBar.log` (verbosity defaults to "Verbose")
+   `~/Library/Logs/Usager/Usager.log` (verbosity defaults to "Verbose")
 
 ## Keychain Prompts (Development)
 
@@ -40,7 +40,7 @@ read_when:
 You'll see **one keychain prompt per stored credential** on the first launch. This is a **one-time migration** that converts existing keychain items to use `kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly`.
 
 ### Subsequent Rebuilds
-The migration flag is stored in UserDefaults, so migrated CodexBar-owned items should not prompt again. Ad-hoc
+The migration flag is stored in UserDefaults, so migrated Usager-owned items should not prompt again. Ad-hoc
 signing can still prompt for other keychain surfaces; use `./Scripts/compile_and_run.sh --clear-adhoc-keychain`
 when you intentionally want to reset ad-hoc keychain state.
 
@@ -52,13 +52,13 @@ when you intentionally want to reset ad-hoc keychain state.
 
 ### Reset Migration (Testing)
 ```bash
-defaults delete com.steipete.codexbar KeychainMigrationV1Completed
+defaults delete com.leandroriviello.usager KeychainMigrationV1Completed
 ```
 
 ## Augment Cookie Refresh
 
 ### How It Works
-CodexBar checks Augment through the provider fetch pipeline. Auto mode tries the Augment CLI first, then the
+Usager checks Augment through the provider fetch pipeline. Auto mode tries the Augment CLI first, then the
 browser-cookie web path. The web path reuses cached cookies when possible and imports from supported browsers when
 the cache is missing or rejected.
 
@@ -79,9 +79,9 @@ If automatic import fails:
 ## Project Structure
 
 ```
-CodexBar/
-├── Sources/CodexBar/          # Main app (SwiftUI + AppKit)
-│   ├── CodexBarApp.swift      # App entry point
+Usager/
+├── Sources/Usager/          # Main app (SwiftUI + AppKit)
+│   ├── UsagerApp.swift      # App entry point
 │   ├── StatusItemController.swift  # Menu bar icon
 │   ├── UsageStore.swift       # Usage data management
 │   ├── SettingsStore.swift    # User preferences
@@ -91,17 +91,17 @@ CodexBar/
 │   │   ├── Codex/             # OpenAI Codex
 │   │   └── ...
 │   └── KeychainMigration.swift  # One-time keychain migration
-├── Sources/CodexBarCore/      # Shared business logic
-├── Tests/CodexBarTests/       # XCTest suite
+├── Sources/UsagerCore/      # Shared business logic
+├── Tests/UsagerTests/       # XCTest suite
 └── Scripts/                   # Build and packaging scripts
 ```
 
 ## Common Tasks
 
 ### Add a New Provider
-1. Add a `UsageProvider` case in `Sources/CodexBarCore/Providers/Providers.swift`
-2. Add core descriptor/fetcher wiring under `Sources/CodexBarCore/Providers/YourProvider/`
-3. Add app-side implementation under `Sources/CodexBar/Providers/YourProvider/`
+1. Add a `UsageProvider` case in `Sources/UsagerCore/Providers/Providers.swift`
+2. Add core descriptor/fetcher wiring under `Sources/UsagerCore/Providers/YourProvider/`
+3. Add app-side implementation under `Sources/Usager/Providers/YourProvider/`
 4. Register the descriptor in `ProviderDescriptorRegistry`
 5. Register the implementation in `ProviderImplementationRegistry`
 6. Add icon assets such as `Resources/ProviderIcon-yourprovider.svg`
@@ -110,7 +110,7 @@ CodexBar/
 1. Enable Debug → Logging → "Enable file logging" or raise verbosity in the app settings.
 2. Reproduce with `./Scripts/compile_and_run.sh`.
 3. Check logs in Console.app:
-   - Filter: `subsystem:com.steipete.codexbar category:augment`
+   - Filter: `subsystem:com.leandroriviello.usager category:augment`
    - Importer messages include the `[augment-cookie]` prefix
 
 ### Run Tests Only
@@ -129,13 +129,13 @@ swiftlint --strict
 ### Local Development Build
 ```bash
 ./Scripts/package_app.sh
-# Creates: CodexBar.app with ad-hoc signing by default
+# Creates: Usager.app with ad-hoc signing by default
 ```
 
 ### Release Build (Notarized)
 ```bash
 ./Scripts/sign-and-notarize.sh
-# Creates: CodexBar-<version>.zip and CodexBar-<version>.dSYM.zip
+# Creates: Usager-<version>.zip and Usager-<version>.dSYM.zip
 ```
 
 See `docs/RELEASING.md` for full release process.
@@ -145,16 +145,16 @@ See `docs/RELEASING.md` for full release process.
 ### App Won't Launch
 ```bash
 # Check crash logs
-ls -lt ~/Library/Logs/DiagnosticReports/CodexBar* | head -5
+ls -lt ~/Library/Logs/DiagnosticReports/Usager* | head -5
 
 # Check Console.app for errors
-# Filter: process:CodexBar
+# Filter: process:Usager
 ```
 
 ### Keychain Prompts Keep Appearing
 ```bash
 # Verify migration completed
-defaults read com.steipete.codexbar KeychainMigrationV1Completed
+defaults read com.leandroriviello.usager KeychainMigrationV1Completed
 # Should output: 1
 
 # Check migration logs
@@ -170,17 +170,17 @@ log show --predicate 'category == "keychain-migration"' --last 5m
 ### Main-Thread Hangs
 
 Debug builds start the hang watchdog automatically. To diagnose a release build,
-enable it explicitly and restart CodexBar:
+enable it explicitly and restart Usager:
 
 ```bash
-defaults write com.steipete.codexbar debugMainThreadHangWatchdog -bool true
+defaults write com.leandroriviello.usager debugMainThreadHangWatchdog -bool true
 ```
 
 Hangs are written to the app log. Hangs over two seconds also request a process
-sample under `~/Library/Logs/CodexBar/`. Disable the release opt-in with:
+sample under `~/Library/Logs/Usager/`. Disable the release opt-in with:
 
 ```bash
-defaults delete com.steipete.codexbar debugMainThreadHangWatchdog
+defaults delete com.leandroriviello.usager debugMainThreadHangWatchdog
 ```
 
 ## Architecture Notes
@@ -194,7 +194,7 @@ defaults delete com.steipete.codexbar debugMainThreadHangWatchdog
 ### Cookie Management
 - Automatic browser import via SweetCookieKit
 - Keychain cache for some imported browser cookies and OAuth/device-flow credentials
-- `~/.codexbar/config.json` for provider settings, manual cookies, and stored API keys
+- `~/.usager/config.json` for provider settings, manual cookies, and stored API keys
 - Manual override for debugging
 - Browser-cookie import when cached sessions need refresh
 

@@ -8,7 +8,7 @@ read_when:
 
 # Command Code
 
-CodexBar surfaces [Command Code](https://commandcode.ai) monthly USD credits next
+Usager surfaces [Command Code](https://commandcode.ai) monthly USD credits next
 to your other AI coding providers.
 
 ## Data source
@@ -43,9 +43,9 @@ provide the Command Code `Cookie` header in `cookieHeader`; both `auto` and
 
 ## Related files
 
-- `Sources/CodexBarCore/Providers/CommandCode/` - descriptor, cookie import,
+- `Sources/UsagerCore/Providers/CommandCode/` - descriptor, cookie import,
   billing fetcher, snapshot mapping, and plan catalog.
-- `Sources/CodexBar/Providers/CommandCode/` - settings store bridge and
+- `Sources/Usager/Providers/CommandCode/` - settings store bridge and
   provider settings UI.
-- `Tests/CodexBarTests/CommandCode*Tests.swift` - parser, cookie, settings,
+- `Tests/UsagerTests/CommandCode*Tests.swift` - parser, cookie, settings,
   and icon coverage.

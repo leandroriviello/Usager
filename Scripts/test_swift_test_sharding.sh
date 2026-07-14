@@ -3,7 +3,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-TEMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/codexbar-test-sharding.XXXXXX")"
+TEMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/usager-test-sharding.XXXXXX")"
 trap 'rm -rf "${TEMP_DIR}"' EXIT
 
 IFS= read -r -d '' FAKE_SWIFT_SCRIPT <<'EOF' || true
@@ -17,11 +17,11 @@ if [[ "$*" == "test list" ]]; then
     exit 42
   fi
   printf '%s\n' \
-    "CodexBarTests.Alpha/test_one()" \
-    "CodexBarTests.Alpha/test_two(argument:)" \
-    "CodexBarTests.Beta/test_two" \
-    'CodexBarTests.`top level works`()' \
-    'CodexBarTests.`top/level slash works`()'
+    "UsagerTests.Alpha/test_one()" \
+    "UsagerTests.Alpha/test_two(argument:)" \
+    "UsagerTests.Beta/test_two" \
+    'UsagerTests.`top level works`()' \
+    'UsagerTests.`top/level slash works`()'
   exit 0
 fi
 if [[ "$*" == *"|"* ]]; then
@@ -43,10 +43,10 @@ python3 "${ROOT_DIR}/Scripts/ci_swift_test_by_suite.py" \
   --swift-command-arg=fake-swift \
   >"${TEMP_DIR}/retry.log"
 grep -Fq "failed with exit code 1; retrying shard once" "${TEMP_DIR}/retry.log"
-grep -Fq "CodexBarTests\\.Alpha" "${FAKE_SWIFT_LOG}"
-grep -Fq "CodexBarTests\\.Beta" "${FAKE_SWIFT_LOG}"
-grep -Fq "CodexBarTests\\..*top\\ level\\ works" "${FAKE_SWIFT_LOG}"
-grep -Fq "CodexBarTests\\..*top/level\\ slash\\ works" "${FAKE_SWIFT_LOG}"
+grep -Fq "UsagerTests\\.Alpha" "${FAKE_SWIFT_LOG}"
+grep -Fq "UsagerTests\\.Beta" "${FAKE_SWIFT_LOG}"
+grep -Fq "UsagerTests\\..*top\\ level\\ works" "${FAKE_SWIFT_LOG}"
+grep -Fq "UsagerTests\\..*top/level\\ slash\\ works" "${FAKE_SWIFT_LOG}"
 [[ "$(wc -l < "${FAKE_SWIFT_LOG}")" -eq 3 ]]
 
 python3 "${ROOT_DIR}/Scripts/ci_swift_test_by_suite.py" \

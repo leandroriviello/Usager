@@ -14,7 +14,7 @@ read_when:
 
 ## Decision
 
-CodexBar may offer an opt-in `Adaptive` refresh frequency that adjusts the existing provider-batch timer between 2 and
+Usager may offer an opt-in `Adaptive` refresh frequency that adjusts the existing provider-batch timer between 2 and
 30 minutes using the deterministic policy below. Do not implement the broader
 per-account prediction, persistent interaction history, learned ranking, or menu prewarming proposed in the original
 RFC.
@@ -47,12 +47,12 @@ Current `main` has two independent refresh paths:
 
 Relevant implementation seams:
 
-- `Sources/CodexBar/SettingsStore.swift`: `RefreshFrequency` and fixed interval mapping.
-- `Sources/CodexBar/UsageStore.swift`: timer ownership and provider-batch refresh.
-- `Sources/CodexBar/UsageStore+Refresh.swift`: provider refresh coalescing and result application.
-- `Sources/CodexBar/StatusItemController+Menu.swift`: missing/error-only menu-open refresh.
-- `Sources/CodexBar/StatusItemController+MenuInteractionRefresh.swift`: deferred non-interactive refresh safety.
-- `Tests/CodexBarTests/StatusMenuInstantOpenTests.swift`: fresh, missing, in-flight, and close-during-refresh contracts.
+- `Sources/Usager/SettingsStore.swift`: `RefreshFrequency` and fixed interval mapping.
+- `Sources/Usager/UsageStore.swift`: timer ownership and provider-batch refresh.
+- `Sources/Usager/UsageStore+Refresh.swift`: provider refresh coalescing and result application.
+- `Sources/Usager/StatusItemController+Menu.swift`: missing/error-only menu-open refresh.
+- `Sources/Usager/StatusItemController+MenuInteractionRefresh.swift`: deferred non-interactive refresh safety.
+- `Tests/UsagerTests/StatusMenuInstantOpenTests.swift`: fresh, missing, in-flight, and close-during-refresh contracts.
 
 The adaptive experiment must change only the first path. It must not alter the menu-open setting, its default, provider
 selection, interaction context, or promise that menu-open refresh does not reset the periodic refresh clock.

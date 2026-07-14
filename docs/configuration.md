@@ -1,24 +1,24 @@
 ---
-summary: "CodexBar config file layout for CLI + app settings."
+summary: "Usager config file layout for CLI + app settings."
 read_when:
-  - "Editing the CodexBar config file or moving settings off Keychain."
+  - "Editing the Usager config file or moving settings off Keychain."
   - "Adding new provider settings fields or defaults."
   - "Explaining CLI/app configuration and security."
 ---
 
 # Configuration
 
-CodexBar reads a single JSON config file for CLI and app provider settings.
+Usager reads a single JSON config file for CLI and app provider settings.
 API keys, manual cookie headers, source selection, ordering, and token accounts live here. Keychain is still used for runtime cookie caches, browser Safe Storage access, and provider OAuth/device-flow credentials where those flows require it.
 
 ## Location
-- `CODEXBAR_CONFIG=/path/to/config.json` when set.
-- `$XDG_CONFIG_HOME/codexbar/config.json` when `XDG_CONFIG_HOME` is set to an absolute path. Relative values are
+- `USAGER_CONFIG=/path/to/config.json` when set.
+- `$XDG_CONFIG_HOME/usager/config.json` when `XDG_CONFIG_HOME` is set to an absolute path. Relative values are
   ignored.
-- `~/.config/codexbar/config.json` by default for new installs.
-- `~/.codexbar/config.json` for existing legacy installs when no XDG config exists.
+- `~/.config/usager/config.json` by default for new installs.
+- `~/.usager/config.json` for existing legacy installs when no XDG config exists.
 - The directory is created if missing.
-- Permissions are set to `0600` whenever CodexBar writes the file on macOS and Linux.
+- Permissions are set to `0600` whenever Usager writes the file on macOS and Linux.
 
 ## Root shape
 ```json
@@ -63,7 +63,7 @@ All provider fields are optional unless noted.
 ## Manual cookies
 Use manual cookies when automatic browser import is unavailable, disabled, or too noisy for your setup.
 The app and CLI both read the same resolved config file, so a manual cookie saved in the UI is also used by
-`codexbar`, and a cookie written by tooling is shown in the app after reload.
+`usager`, and a cookie written by tooling is shown in the app after reload.
 
 `cookieHeader` expects the HTTP `Cookie:` request header value for the provider origin, not a raw Netscape cookie
 export. In browser DevTools, open the Network tab, select a request for the provider site, and copy the request
@@ -92,22 +92,22 @@ Example placeholder config:
 Validate after editing:
 
 ```bash
-codexbar config validate
-codexbar usage --provider example-provider --verbose
+usager config validate
+usager usage --provider example-provider --verbose
 ```
 
 CLI shortcuts:
 
 ```bash
-codexbar config providers
-codexbar config enable --provider grok
-codexbar config disable --provider cursor
-printf '%s' "$ELEVENLABS_API_KEY" | codexbar config set-api-key --provider elevenlabs --stdin
-printf '%s' "$OPENAI_ADMIN_KEY" | codexbar config set-api-key --provider openai --stdin
-printf '%s' "$GROQ_API_KEY" | codexbar config set-api-key --provider groq --stdin
-printf '%s' "$LLM_PROXY_API_KEY" | codexbar config set-api-key --provider llmproxy --stdin
-printf '%s' "$LITELLM_API_KEY" | codexbar config set-api-key --provider litellm --stdin
-printf '%s' "$CLAWROUTER_API_KEY" | codexbar config set-api-key --provider clawrouter --stdin
+usager config providers
+usager config enable --provider grok
+usager config disable --provider cursor
+printf '%s' "$ELEVENLABS_API_KEY" | usager config set-api-key --provider elevenlabs --stdin
+printf '%s' "$OPENAI_ADMIN_KEY" | usager config set-api-key --provider openai --stdin
+printf '%s' "$GROQ_API_KEY" | usager config set-api-key --provider groq --stdin
+printf '%s' "$LLM_PROXY_API_KEY" | usager config set-api-key --provider llmproxy --stdin
+printf '%s' "$LITELLM_API_KEY" | usager config set-api-key --provider litellm --stdin
+printf '%s' "$CLAWROUTER_API_KEY" | usager config set-api-key --provider clawrouter --stdin
 ```
 
 OpenAI API project scoping uses `workspaceID` in config. This maps to `OPENAI_PROJECT_ID` for Admin API usage and is
@@ -158,7 +158,7 @@ ClawRouter defaults to the hosted service. To use another deployment, set `enter
 
 See [CLI configuration](cli-configuration.md) for scripting examples and output formats.
 
-Manual cookies are secrets. Keep the CodexBar config file private, leave its permissions at `0600`, never commit it,
+Manual cookies are secrets. Keep the Usager config file private, leave its permissions at `0600`, never commit it,
 and never paste real cookie values or readable DevTools screenshots into public issues.
 
 ### tokenAccounts
@@ -181,7 +181,7 @@ and never paste real cookie values or readable DevTools screenshots into public 
 z.ai team accounts also use `usageScope`, `organizationId`, and `workspaceID`; see [z.ai](zai.md).
 
 ## Provider IDs
-Current IDs (see `Sources/CodexBarCore/Providers/Providers.swift`):
+Current IDs (see `Sources/UsagerCore/Providers/Providers.swift`):
 `codex`, `openai`, `azureopenai`, `claude`, `cursor`, `opencode`, `opencodego`, `alibaba`, `alibabatokenplan`, `factory`, `gemini`, `antigravity`, `copilot`, `devin`, `zai`, `minimax`, `manus`, `kimi`, `kilo`, `kiro`, `vertexai`, `augment`, `jetbrains`, `kimik2`, `moonshot`, `amp`, `t3chat`, `ollama`, `synthetic`, `warp`, `openrouter`, `elevenlabs`, `windsurf`, `zed`, `perplexity`, `mimo`, `doubao`, `sakana`, `abacus`, `mistral`, `deepseek`, `codebuff`, `crof`, `venice`, `commandcode`, `qoder`, `stepfun`, `bedrock`, `grok`, `groq`, `llmproxy`, `litellm`, `deepgram`, `poe`, `chutes`, `crossmodel`, `clawrouter`.
 
 ## Ordering
@@ -191,4 +191,4 @@ The order of `providers` controls display/order in the app and CLI. Reorder the 
 - Fields not relevant to a provider are ignored.
 - Omitted providers are appended with defaults during normalization.
 - Keep the file private; it contains secrets.
-- Validate the file with `codexbar config validate` (JSON output available with `--format json`).
+- Validate the file with `usager config validate` (JSON output available with `--format json`).

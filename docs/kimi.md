@@ -8,7 +8,7 @@ read_when:
 
 # Kimi Provider
 
-Tracks usage for [Kimi For Coding](https://www.kimi.com/code) in CodexBar.
+Tracks usage for [Kimi For Coding](https://www.kimi.com/code) in Usager.
 
 ## Features
 
@@ -23,10 +23,10 @@ Choose one of three authentication methods:
 
 ### Method 1: Kimi Code API Key (Recommended)
 
-Create an API key in the [Kimi Code Console](https://www.kimi.com/code/console), then save it in CodexBar:
+Create an API key in the [Kimi Code Console](https://www.kimi.com/code/console), then save it in Usager:
 
 ```bash
-codexbar config set-api-key --provider kimi --api-key "kimi-api-key-here"
+usager config set-api-key --provider kimi --api-key "kimi-api-key-here"
 ```
 
 Or provide it through the environment:
@@ -35,31 +35,31 @@ Or provide it through the environment:
 export KIMI_CODE_API_KEY="kimi-code-api-key-here"
 ```
 
-CodexBar calls `GET https://api.kimi.com/coding/v1/usages` with the API key. Set
+Usager calls `GET https://api.kimi.com/coding/v1/usages` with the API key. Set
 `KIMI_CODE_BASE_URL` only when testing a compatible HTTPS proxy or alternate host.
 
 ### Method 2: Automatic Browser Import
 
 **No setup needed!** If you're already logged in to Kimi in Arc, Chrome, Safari, Edge, Brave, or Chromium:
 
-1. Open CodexBar settings → Providers → Kimi
+1. Open Usager settings → Providers → Kimi
 2. Set "Cookie source" to "Automatic"
 3. Enable the Kimi provider toggle
-4. CodexBar will automatically find your session
+4. Usager will automatically find your session
 
-**Note**: Requires Full Disk Access to read browser cookies (System Settings → Privacy & Security → Full Disk Access → CodexBar).
+**Note**: Requires Full Disk Access to read browser cookies (System Settings → Privacy & Security → Full Disk Access → Usager).
 
 ### Method 3: Manual Token Entry
 
 For advanced users or when automatic import fails:
 
-1. Open CodexBar settings → Providers → Kimi
+1. Open Usager settings → Providers → Kimi
 2. Set "Cookie source" to "Manual"
 3. Visit `https://www.kimi.com/code/console` in your browser
 4. Open Developer Tools (F12 or Cmd+Option+I)
 5. Go to **Application** → **Cookies**
 6. Copy the `kimi-auth` cookie value (JWT token)
-7. Paste it into the "Auth Token" field in CodexBar
+7. Paste it into the "Auth Token" field in Usager
 
 ### Cookie Environment Variable
 
@@ -71,7 +71,7 @@ export KIMI_AUTH_TOKEN="jwt-token-here"
 
 ## Authentication Priority
 
-When multiple sources are available, CodexBar uses this order:
+When multiple sources are available, Usager uses this order:
 
 1. API key (`providers[].apiKey` or `KIMI_CODE_API_KEY`) in Auto mode
 2. Manual cookie/token (from Settings UI) when web fallback is used
@@ -163,14 +163,14 @@ All tiers have a rate limit of 200 requests per 5 hours.
 
 ### "No Kimi session cookies found"
 - You're not logged in to Kimi in any supported browser
-- Grant Full Disk Access to CodexBar in System Settings
+- Grant Full Disk Access to Usager in System Settings
 
 ### "Failed to parse Kimi usage data"
 - The API response format may have changed. Please report this issue.
 
 ## Implementation
 
-- **Core files**: `Sources/CodexBarCore/Providers/Kimi/`
-- **UI files**: `Sources/CodexBar/Providers/Kimi/`
-- **Login flow**: `Sources/CodexBar/KimiLoginRunner.swift`
-- **Tests**: `Tests/CodexBarTests/KimiProviderTests.swift`
+- **Core files**: `Sources/UsagerCore/Providers/Kimi/`
+- **UI files**: `Sources/Usager/Providers/Kimi/`
+- **Login flow**: `Sources/Usager/KimiLoginRunner.swift`
+- **Tests**: `Tests/UsagerTests/KimiProviderTests.swift`

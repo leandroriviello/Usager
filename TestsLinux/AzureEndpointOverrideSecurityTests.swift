@@ -1,4 +1,4 @@
-import CodexBarCore
+import UsagerCore
 import Foundation
 #if canImport(FoundationNetworking)
 import FoundationNetworking

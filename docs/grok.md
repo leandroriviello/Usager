@@ -34,12 +34,12 @@ browser session when the CLI surface does not expose billing.
    - POSTs an empty gRPC-web protobuf request to
      `https://grok.com/grok_api_v2.GrokBuildBilling/GetGrokCreditsConfig`.
    - Uses grok.com browser session cookies. When a non-expired
-     `~/.grok/auth.json` token is available, CodexBar first sends it with each
+     `~/.grok/auth.json` token is available, Usager first sends it with each
      browser session, then retries that session with cookies only.
-   - CodexBar imports Chrome only by default to avoid unrelated browser
+   - Usager imports Chrome only by default to avoid unrelated browser
      Keychain prompts.
    - CLI/test runtime does not import browser cookies unless
-     `CODEXBAR_ALLOW_BROWSER_COOKIE_IMPORT=1` is set.
+     `USAGER_ALLOW_BROWSER_COOKIE_IMPORT=1` is set.
    - `~/.grok/auth.json` is still used for identity and as a last best-effort
      bearer-only probe after browser sessions fail. Expired tokens are not sent.
    - Parses the returned protobuf enough to recover used percent and
@@ -55,13 +55,13 @@ browser session when the CLI surface does not expose billing.
 ## OAuth credentials
 
 - File: `~/.grok/auth.json` (path overridable via `GROK_HOME`).
-- Top-level keys are OIDC scope URLs. CodexBar prefers entries under
+- Top-level keys are OIDC scope URLs. Usager prefers entries under
   `https://auth.x.ai::<client-id>` (SuperGrok), falling back to
   `https://accounts.x.ai/sign-in` (legacy session).
 - Required fields per entry: `key` (bearer token), `refresh_token`, `expires_at`,
   `auth_mode`, `email`, `team_id`, `user_id`, `first_name`/`last_name`.
 - Tokens are issued by `grok login` and expire after ~7 days; refresh is handled by
-  the CLI itself (CodexBar does not refresh; it just reads the cached credential).
+  the CLI itself (Usager does not refresh; it just reads the cached credential).
 
 ## JSON-RPC contract
 
@@ -96,7 +96,7 @@ browser session when the CLI surface does not expose billing.
   ```
 - Auth errors surface as JSON-RPC errors with the message
   `"Authentication required to fetch billing data. Run 'grok login' to authenticate."`.
-- Timeouts: 8s for `initialize`, 12s for `x.ai/billing`. CodexBar terminates the
+- Timeouts: 8s for `initialize`, 12s for `x.ai/billing`. Usager terminates the
   child `grok` process on timeout to avoid leaking subprocesses.
 
 ## Mapping to `UsageSnapshot`
@@ -131,7 +131,7 @@ Each session directory contains `signals.json` with fields like:
 }
 ```
 
-CodexBar aggregates these into a `GrokLocalSessionSummary` (session count, total
+Usager aggregates these into a `GrokLocalSessionSummary` (session count, total
 tokens, last session time, primary model) and exposes it for diagnostics even when
 the RPC path is unavailable.
 
@@ -142,10 +142,10 @@ points to `https://status.x.ai`.
 
 ## Key files
 
-- `Sources/CodexBarCore/Providers/Grok/GrokProviderDescriptor.swift`
-- `Sources/CodexBarCore/Providers/Grok/GrokAuth.swift`
-- `Sources/CodexBarCore/Providers/Grok/GrokRPCClient.swift`
-- `Sources/CodexBarCore/Providers/Grok/GrokWebBillingFetcher.swift`
-- `Sources/CodexBarCore/Providers/Grok/GrokStatusProbe.swift`
-- `Sources/CodexBarCore/Providers/Grok/GrokLocalSessionScanner.swift`
-- `Sources/CodexBar/Providers/Grok/GrokProviderImplementation.swift`
+- `Sources/UsagerCore/Providers/Grok/GrokProviderDescriptor.swift`
+- `Sources/UsagerCore/Providers/Grok/GrokAuth.swift`
+- `Sources/UsagerCore/Providers/Grok/GrokRPCClient.swift`
+- `Sources/UsagerCore/Providers/Grok/GrokWebBillingFetcher.swift`
+- `Sources/UsagerCore/Providers/Grok/GrokStatusProbe.swift`
+- `Sources/UsagerCore/Providers/Grok/GrokLocalSessionScanner.swift`
+- `Sources/Usager/Providers/Grok/GrokProviderImplementation.swift`

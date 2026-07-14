@@ -35,7 +35,7 @@ Usage source picker:
   `GET https://chatgpt.com/backend-api/wham/rate-limit-reset-credits` using the same account-scoped OAuth context;
   the CLI requests it only when optional credits are included.
 - The menu and provider settings list every still-available expiry, while the optional credits setting controls
-  nearing-expiry notifications. CodexBar does not redeem or modify reset credits.
+  nearing-expiry notifications. Usager does not redeem or modify reset credits.
 - `rate_limit.primary_window` / `secondary_window` map to the session/weekly lanes.
 - `additional_rate_limits[]` (model-specific limits such as GPT-5.3-Codex-Spark) map to named
   `UsageSnapshot.extraRateWindows` entries (Spark uses a stable `codex-spark` id / `Codex Spark` title).
@@ -43,12 +43,12 @@ Usage source picker:
 
 ### Advanced profile-home accounts
 - Managed Codex accounts remain the default multi-account path.
-- Advanced users can add existing Codex homes to `~/.codexbar/config.json` with
+- Advanced users can add existing Codex homes to `~/.usager/config.json` with
   `providers[].codexProfileHomePaths`.
 - Each configured path must be absolute or start with `~/`, and point at a Codex home that contains `auth.json`.
-- CodexBar reads identity from the configured home, exposes it in the Codex account switcher, and scopes
+- Usager reads identity from the configured home, exposes it in the Codex account switcher, and scopes
   remote Codex fetches with `CODEX_HOME`.
-- Profile homes are not copied, reauthenticated, or removed by CodexBar.
+- Profile homes are not copied, reauthenticated, or removed by Usager.
 
 Example:
 
@@ -79,7 +79,7 @@ Example:
   3) Firefox: `~/Library/Application Support/Firefox/Profiles/*/cookies.sqlite`
   - Domains loaded: `chatgpt.com`, `openai.com`.
   - No cookie-name filter; we import all matching domain cookies.
-- Cached cookies: Keychain cache `com.steipete.codexbar.cache` (account `cookie.codex`, source + timestamp).
+- Cached cookies: Keychain cache `com.leandroriviello.usager.cache` (account `cookie.codex`, source + timestamp).
   Reused before re-importing from browsers.
 - Manual cookie header:
   - Paste the `Cookie:` header from a `chatgpt.com` request in Preferences → Providers → Codex.
@@ -104,21 +104,21 @@ Example:
   - `account/read`
   - `account/rateLimits/read`
 - RPC reads are bounded: initialization has a longer startup budget, and normal requests have a shorter per-method
-  timeout. On timeout, CodexBar terminates the child `codex app-server` process so the stdout reader unwinds instead
+  timeout. On timeout, Usager terminates the child `codex app-server` process so the stdout reader unwinds instead
   of leaving refresh stuck indefinitely.
 - Provides:
   - Usage windows (primary + secondary) with reset timestamps.
   - Credits snapshot (balance, hasCredits, unlimited).
   - Account identity (email + plan type) when available.
 - App-server errors are terminal for the CLI strategy, except when Codex includes a recoverable `wham/usage` JSON body in the error text.
-- If macOS blocks or quarantines the `codex` executable, CodexBar records the launch failure and skips background CLI
+- If macOS blocks or quarantines the `codex` executable, Usager records the launch failure and skips background CLI
   launches for 30 minutes. Use a manual refresh after reinstalling or unblocking `codex` to retry immediately.
 - If managed Codex account login fails after macOS moved `codex` to Trash, first confirm `codex --version` works in
   Terminal. Check `which -a codex` for stale duplicate installs, then run
   `npm install -g --include=optional @openai/codex@latest` before retrying Add Account.
 
 ### Codex CLI PTY diagnostics (`/status`)
-- Manual/debug parser only; automatic background refresh and `CodexBarCLI usage --source cli` do not launch bare Codex TUI.
+- Manual/debug parser only; automatic background refresh and `UsagerCLI usage --source cli` do not launch bare Codex TUI.
 - Kept for explicit diagnostics/parser coverage because bare `codex` TUI can start interactive auth and open browser tabs.
 - Parses rendered `/status` output:
   - `Credits:` line
@@ -152,15 +152,15 @@ Example:
   - pi assistant usage is bucketed by assistant-turn timestamp, so mixed-model pi sessions can contribute to multiple
     days/models correctly.
 - Cache:
-  - Native + merged provider cache: `~/Library/Caches/CodexBar/cost-usage/codex-v2.json`
-  - pi session cache: `~/Library/Caches/CodexBar/cost-usage/pi-sessions-v1.json`
+  - Native + merged provider cache: `~/Library/Caches/Usager/cost-usage/codex-v2.json`
+  - pi session cache: `~/Library/Caches/Usager/cost-usage/pi-sessions-v1.json`
 - Window: configurable 1-365 day rolling history, with a 60s minimum refresh interval.
 
 ## Key files
-- Web: `Sources/CodexBarCore/OpenAIWeb/*`
-- CLI RPC + diagnostic PTY parser: `Sources/CodexBarCore/UsageFetcher.swift`,
-  `Sources/CodexBarCore/Providers/Codex/CodexStatusProbe.swift`
-- Cost usage: `Sources/CodexBarCore/CostUsageFetcher.swift`,
-  `Sources/CodexBarCore/PiSessionCostScanner.swift`,
-  `Sources/CodexBarCore/PiSessionCostCache.swift`,
-  `Sources/CodexBarCore/Vendored/CostUsage/*`
+- Web: `Sources/UsagerCore/OpenAIWeb/*`
+- CLI RPC + diagnostic PTY parser: `Sources/UsagerCore/UsageFetcher.swift`,
+  `Sources/UsagerCore/Providers/Codex/CodexStatusProbe.swift`
+- Cost usage: `Sources/UsagerCore/CostUsageFetcher.swift`,
+  `Sources/UsagerCore/PiSessionCostScanner.swift`,
+  `Sources/UsagerCore/PiSessionCostCache.swift`,
+  `Sources/UsagerCore/Vendored/CostUsage/*`

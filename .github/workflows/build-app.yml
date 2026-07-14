@@ -1,0 +1,37 @@
+name: Build macOS App
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select latest installed Xcode
+        run: |
+          set -euo pipefail
+          xcode_path="$(ls -d /Applications/Xcode*.app | sort -V | tail -1)"
+          sudo xcode-select -s "$xcode_path/Contents/Developer"
+          xcodebuild -version
+
+      - name: Package ad-hoc app
+        env:
+          USAGER_SIGNING: adhoc
+        run: ./Scripts/package_app.sh release
+
+      - name: Archive app
+        run: ditto -c -k --sequesterRsrc --keepParent Usager.app Usager-0.1.0-macos.zip
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Usager-0.1.0-macos
+          path: Usager-0.1.0-macos.zip
+          if-no-files-found: error

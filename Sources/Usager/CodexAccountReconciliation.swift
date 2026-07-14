@@ -1,0 +1,4 @@
+import UsagerCore
+
+typealias CodexVisibleAccount = UsagerCore.CodexVisibleAccount
+typealias CodexVisibleAccountProjection = UsagerCore.CodexVisibleAccountProjection

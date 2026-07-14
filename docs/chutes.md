@@ -7,11 +7,11 @@ read_when:
 
 # Chutes Provider
 
-CodexBar reads subscription and quota usage from Chutes' management API with a manually configured API key.
+Usager reads subscription and quota usage from Chutes' management API with a manually configured API key.
 
 ## Authentication
 
-Create a Chutes API key using the [official authentication guide](https://chutes.ai/docs/getting-started/authentication), then add it in CodexBar Settings → Providers → Chutes.
+Create a Chutes API key using the [official authentication guide](https://chutes.ai/docs/getting-started/authentication), then add it in Usager Settings → Providers → Chutes.
 
 You can also set the environment variable:
 
@@ -22,12 +22,12 @@ export CHUTES_API_KEY="cpk_..."
 Or configure it through the CLI:
 
 ```bash
-printf '%s' "$CHUTES_API_KEY" | codexbar config set-api-key --provider chutes --stdin
+printf '%s' "$CHUTES_API_KEY" | usager config set-api-key --provider chutes --stdin
 ```
 
 ## Data Source
 
-CodexBar requests:
+Usager requests:
 
 - `GET https://api.chutes.ai/users/me/subscription_usage`
 - `GET https://api.chutes.ai/users/me/quotas` when subscription data does not contain every usage window
@@ -42,11 +42,11 @@ The provider prefers the rolling four-hour window as the primary meter and month
 ## CLI Usage
 
 ```bash
-codexbar --provider chutes
+usager --provider chutes
 ```
 
 ## Troubleshooting
 
 - Confirm the key can read `https://api.chutes.ai/users/me/subscription_usage`.
 - A `401` or `403` means Chutes rejected the key.
-- `CHUTES_API_URL` can override the management API base URL, but CodexBar accepts HTTPS endpoints only.
+- `CHUTES_API_URL` can override the management API base URL, but Usager accepts HTTPS endpoints only.

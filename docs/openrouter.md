@@ -24,12 +24,12 @@ export OPENROUTER_API_KEY="sk-or-v1-..."
 
 ### Settings
 
-You can also configure the API key in CodexBar Settings → Providers → OpenRouter.
+You can also configure the API key in Usager Settings → Providers → OpenRouter.
 
 ### CLI config
 
 ```bash
-printf '%s' "$OPENROUTER_API_KEY" | codexbar config set-api-key --provider openrouter --stdin
+printf '%s' "$OPENROUTER_API_KEY" | usager config set-api-key --provider openrouter --stdin
 ```
 
 ## Data Source
@@ -52,8 +52,8 @@ The OpenRouter menu card shows:
 ## CLI Usage
 
 ```bash
-codexbar --provider openrouter
-codexbar -p or  # alias
+usager --provider openrouter
+usager -p or  # alias
 ```
 
 ## Environment Variables
@@ -63,7 +63,7 @@ codexbar -p or  # alias
 | `OPENROUTER_API_KEY` | Your OpenRouter API key (required) |
 | `OPENROUTER_API_URL` | Override the base API URL (optional, defaults to `https://openrouter.ai/api/v1`) |
 | `OPENROUTER_HTTP_REFERER` | Optional client referer sent as `HTTP-Referer` header |
-| `OPENROUTER_X_TITLE` | Optional client title sent as `X-Title` header (defaults to `CodexBar`) |
+| `OPENROUTER_X_TITLE` | Optional client title sent as `X-Title` header (defaults to `Usager`) |
 
 ## Notes
 

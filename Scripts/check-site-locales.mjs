@@ -17,7 +17,7 @@ const expectedCodes = [
 ];
 const catalogCodes = localeCatalog.map((locale) => locale.code);
 const appLanguageSource = fs.readFileSync(
-  path.join(repoRoot, "Sources/CodexBar/PreferencesGeneralPane.swift"),
+  path.join(repoRoot, "Sources/Usager/PreferencesGeneralPane.swift"),
   "utf8",
 );
 
@@ -58,7 +58,7 @@ const hasLanguagePicker = indexHtml.includes('id="language-picker-list"')
 assert(hasLanguagePicker, 'site must include the language picker backed by localeCatalog');
 
 for (const code of catalogCodes) {
-  assert(indexHtml.includes(`href="https://codexbar.app/?lang=${code}"`), `missing hreflang URL for ${code}`);
+  assert(indexHtml.includes(`href="https://usager.app/?lang=${code}"`), `missing hreflang URL for ${code}`);
 }
 
 const providerCards = [...indexHtml.matchAll(/<li class="provider-card"([^>]*)>([\s\S]*?)<\/li>/g)];

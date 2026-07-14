@@ -19,4 +19,4 @@ Doubao tracks Volcengine Ark request-limit headers by probing the chat-completio
 - Endpoint: `POST https://ark.cn-beijing.volces.com/api/coding/v3/chat/completions`
 - Probe models: `doubao-seed-2.0-code`, `doubao-1.5-pro-32k`, `doubao-lite-32k`
 - Reads `x-ratelimit-remaining-requests`, `x-ratelimit-limit-requests`, and `x-ratelimit-reset-requests` when returned.
-- If the key is valid but rate-limit headers are missing, CodexBar shows the key as active and links to the dashboard for details.
+- If the key is valid but rate-limit headers are missing, Usager shows the key as active and links to the dashboard for details.

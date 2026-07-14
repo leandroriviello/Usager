@@ -7,7 +7,7 @@ read_when:
 
 # Fork Setup & Initial Configuration
 
-**One-time setup for managing your CodexBar fork with multiple upstreams**
+**One-time setup for managing your Usager fork with multiple upstreams**
 
 ---
 
@@ -18,7 +18,7 @@ read_when:
 ```bash
 # Verify your fork is origin
 git remote -v
-# Should show: origin  git@github.com:topoffunnel/CodexBar.git
+# Should show: origin  git@github.com:leandroriviello/Usager.git
 
 # Add upstream (steipete's original)
 git remote add upstream https://github.com/steipete/CodexBar.git
@@ -32,7 +32,7 @@ git fetch --all
 # Verify setup
 git remote -v
 # Should show:
-# origin    git@github.com:topoffunnel/CodexBar.git (fetch/push)
+# origin    git@github.com:leandroriviello/Usager.git (fetch/push)
 # upstream  https://github.com/steipete/CodexBar.git (fetch/push)
 # quotio    https://github.com/nguyenphutrong/quotio.git (fetch/push)
 ```
@@ -83,7 +83,7 @@ chmod +x Scripts/*.sh
 ```
 Files changed:
  .../Providers/Augment/AugmentStatusProbe.swift     | 627 deletions
- Tests/CodexBarTests/AugmentStatusProbeTests.swift  |  88 deletions
+ Tests/UsagerTests/AugmentStatusProbeTests.swift  |  88 deletions
 ```
 
 **This validates our fork strategy:**
@@ -220,7 +220,7 @@ git commit -m "feat: multi-account management
 Inspired by quotio's account switching pattern:
 https://github.com/nguyenphutrong/quotio/...
 
-Implemented independently using CodexBar architecture."
+Implemented independently using Usager architecture."
 ```
 
 ---

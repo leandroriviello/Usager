@@ -353,7 +353,7 @@ function applyThemePreference(preference, persist = true) {
 
   if (persist) {
     try {
-      localStorage.setItem('codexbar-theme', preference);
+      localStorage.setItem('usager-theme', preference);
     } catch (_) {}
   }
 }
@@ -417,7 +417,7 @@ const localeAliases = {
   pt: 'pt-BR',
   'pt-br': 'pt-BR',
 };
-const languageStorageKey = 'codexbar-language';
+const languageStorageKey = 'usager-language';
 const languagePicker = document.querySelector('#language-picker');
 const languageTrigger = document.querySelector('#language-picker-trigger');
 const languageMenu = document.querySelector('#language-picker-menu');
@@ -461,9 +461,9 @@ function applyAttributeMessages(dataAttribute, targetAttribute) {
 
 function richToken(name) {
   const codeTokens = {
-    cask: 'brew install --cask steipete/tap/codexbar',
-    codexbar: 'codexbar',
-    linuxCommand: 'brew install steipete/tap/codexbar',
+    cask: 'brew install --cask steipete/tap/usager',
+    usager: 'usager',
+    linuxCommand: 'brew install steipete/tap/usager',
     upgrade: 'brew upgrade',
   };
   if (codeTokens[name]) {

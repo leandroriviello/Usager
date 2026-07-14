@@ -23,10 +23,10 @@ read_when:
 - Responses are `text/javascript` with serialized objects; parse via regex.
 - Missing workspace ID or rolling usage fields should raise parse errors; omitted weekly usage stays absent.
 - OpenCode web Auto imports Chrome first, then Dia when their cookie stores exist; Keychain preflight stays scoped
-  to each candidate browser. Other browsers stay on Manual Cookie import until CodexBar has an explicit browser
+  to each candidate browser. Other browsers stay on Manual Cookie import until Usager has an explicit browser
   selector.
-- Set `CODEXBAR_OPENCODE_WORKSPACE_ID` to skip workspace lookup and force a specific workspace.
+- Set `USAGER_OPENCODE_WORKSPACE_ID` to skip workspace lookup and force a specific workspace.
 - Workspace override accepts a raw `wrk_…` ID or a full `https://opencode.ai/workspace/...` URL.
-- Cached cookies: Keychain cache `com.steipete.codexbar.cache` (account `cookie.opencode`, source + timestamp). Browser
+- Cached cookies: Keychain cache `com.leandroriviello.usager.cache` (account `cookie.opencode`, source + timestamp). Browser
   import only runs when the cached cookie fails.
 - OpenCode Go auto mode tries web usage first, then derives quota windows from local `opencode-go` assistant costs.

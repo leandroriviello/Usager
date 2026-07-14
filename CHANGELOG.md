@@ -1,11 +1,29 @@
 # Changelog
 
+## 0.1.0 — 2026-07-14
+
+### Added
+- Primera versión pública de Usager, basada en CodexBar y adaptada como fork independiente.
+- Overview configurable de hasta seis proveedores visibles al mismo tiempo.
+- Sistema visual oscuro de Leandro Riviello con verde señal y materiales Liquid Glass.
+
+### Changed
+- Renombrado integral de la aplicación, CLI, widgets y configuración a Usager.
+- Identificadores de bundle propios para evitar conflictos con instalaciones de CodexBar.
+
 ## 0.41.1 — Unreleased
+
+### Added
+- Agent Sessions: list and focus live local or SSH-discovered Codex and Claude Code sessions from the menu and CLI.
+
+### Fixed
+- Ollama: recognize current WorkOS AuthKit sessions during browser-cookie discovery and manual cookie validation. Thanks @joeVenner!
+- Ollama: classify current WorkOS sign-in redirects as expired sessions, enabling cookie-candidate fallback instead of a parser error. Thanks @joeVenner!
 
 ## 0.41.0 — 2026-07-06
 
 ### Added
-- CLI: add responsive `codexbar cards` and compact `--brief` terminal usage views. Thanks @DonnieFi!
+- CLI: add responsive `usager cards` and compact `--brief` terminal usage views. Thanks @DonnieFi!
 - Antigravity: show pace details for legacy model-family and current session/weekly quota rows without changing compact icon lane semantics. Thanks @Zihao-Qi!
 - Widgets: make Kimi available with Weekly, Rate Limit, and Monthly quota rows. Thanks @joeVenner!
 - Kimi: show the subscription 7-day Code quota in menus and large widgets. Thanks @skyzer!
@@ -46,7 +64,7 @@
 
 ### Changed
 - Settings: keep the sidebar fixed and visible while resizing, prevent collapse or over-expansion, and cap detail content width for readability. Thanks @Zihao-Qi!
-- Debug builds: add a compact `D` beside menu-bar icons and identify them as CodexBar Debug in tooltips and accessibility.
+- Debug builds: add a compact `D` beside menu-bar icons and identify them as Usager Debug in tooltips and accessibility.
 - Usage bars: distinguish full-height quota-warning thresholds from subtle workday-boundary markers. Thanks @Alekstodo!
 
 ### Fixed
@@ -94,8 +112,8 @@
 - Codex: show a conservative 1.5× pace-headroom hint in menus and CLI output when usage is safely ahead of the reset curve. Thanks @astuteprogrammer!
 
 ### Changed
-- Branding: replace the app and website icon with a usage-meter prompt mark that matches CodexBar's core UI.
-- Website: redesign codexbar.app around faster download, provider discovery, feature, CLI, and widget paths with responsive dark/light and localized layouts. Thanks @vyctorbrzezowski!
+- Branding: replace the app and website icon with a usage-meter prompt mark that matches Usager's core UI.
+- Website: redesign usager.app around faster download, provider discovery, feature, CLI, and widget paths with responsive dark/light and localized layouts. Thanks @vyctorbrzezowski!
 - Architecture: accept a bounded opt-in adaptive refresh design with a deterministic 2–30-minute cadence and no behavioral telemetry. Thanks @hhh2210!
 - Architecture: define the security and identity boundaries required before custom HTTP JSON providers can be implemented safely.
 - Claude: accept a display-only multi-account design based on read-only `claude-swap --list --json`, without account switching or credential storage.
@@ -216,7 +234,7 @@
 - Linux CLI: publish static musl release tarballs for x86_64 and aarch64. Thanks @Yuxin-Qiao!
 - Documentation: add safe troubleshooting for browser Keychain prompts that persist after uninstall. Thanks @Yuxin-Qiao!
 - Diagnostics: report provider-neutral usage confidence and mark fully decoded Codex OAuth windows exact. Thanks @Yuxin-Qiao!
-- Codex agents: add a read-only `codexbar` skill for bounded, redacted provider usage JSON. Thanks @coygeek!
+- Codex agents: add a read-only `usager` skill for bounded, redacted provider usage JSON. Thanks @coygeek!
 - Display: add a Hide critters option for plain menu bar quota capsules. Thanks @elijahfriedman!
 
 ### Changed
@@ -375,7 +393,7 @@
 - Cursor: show capped team Extra usage when no individual cap exists, and honor percent used/remaining menu bar display settings instead of always showing currency spend (#1426). Thanks @lpc-eol!
 - Cursor: derive a first-party web session from the signed-in Cursor.app as a final fallback, preserving account precedence and legacy request quotas (#1295). Thanks @Jackie-Qin!
 - Claude: explain that an unauthorized Web session requires signing in at claude.ai or refreshing imported cookies (#1287). Thanks @LeoLin990405!
-- CLI server: reload provider config for every usage and cost request, invalidate config-dependent cache entries, and prune expired config variants without restarting `codexbar serve`. Thanks @enieuwy!
+- CLI server: reload provider config for every usage and cost request, invalidate config-dependent cache entries, and prune expired config variants without restarting `usager serve`. Thanks @enieuwy!
 - Menu bar: reserve quota-bar space consistently across Overview and provider switcher segments so selection no longer changes segment height (#1445). Thanks @Zihao-Qi!
 - Cost usage: accept normal models.dev catalog churn while retaining prior model prices as fallbacks, so newly priced models appear without requiring a manual cache reset (#1438). Thanks @tom-rigelblu!
 - Menu bar: detect Tahoe Control Center proxy windows parked in the blocked offscreen slot during startup recovery, so hidden icons show the existing guidance without weakening menu-bar-manager safeguards (#1440).
@@ -437,7 +455,7 @@
 - Menu bar: size hosted chart submenus directly instead of spinning up throwaway SwiftUI hosting controllers during menu layout (#1352). Thanks @Yuxin-Qiao!
 - Menu bar: avoid recomputing expensive readiness signatures on closed-menu store ticks while preserving root-open refresh correctness for deferred observations (#1351). Thanks @Yuxin-Qiao!
 - Menu bar: defer Quit from the status menu until AppKit menu tracking unwinds so shutdown does not wedge Dock autohide state (#1354, fixes #1353). Thanks @jskoiz!
-- Claude: remove transient ClaudeProbe session artifacts after CLI usage polls so background refreshes no longer fill Claude Code project history with CodexBar `/usage` sessions (#1301). Thanks @LPFchan and @matthewod11-stack!
+- Claude: remove transient ClaudeProbe session artifacts after CLI usage polls so background refreshes no longer fill Claude Code project history with Usager `/usage` sessions (#1301). Thanks @LPFchan and @matthewod11-stack!
 - Menu bar: keep z.ai overview rows with detail submenus in Overview so hovering quota details no longer recurses into a nested provider menu (#1279, fixes #1246). Thanks @RajvardhanPatil07!
 - Codex: backfill visible-account reset timestamps and missing 5-hour/weekly window metadata from same-workspace plan history so segmented multi-account JSON keeps machine-readable reset data (#1283). Thanks @callmepopo!
 - Antigravity: detect CLI local language-server processes and allow empty CSRF tokens only for explicit CLI matches so Antigravity CLI quota usage renders without weakening IDE CSRF detection (#1341). Thanks @oyaah!
@@ -462,7 +480,7 @@
 ## 0.32.3 — 2026-06-02
 
 ### Fixed
-- Menu bar: stop forcing a private preferred-position value for fresh status items; suspicious stored positions are now cleared so AppKit can place CodexBar normally on macOS 26 / 5K displays (#1267). Thanks @AdrianSimionov, @kirocop, and @Yuxin-Qiao!
+- Menu bar: stop forcing a private preferred-position value for fresh status items; suspicious stored positions are now cleared so AppKit can place Usager normally on macOS 26 / 5K displays (#1267). Thanks @AdrianSimionov, @kirocop, and @Yuxin-Qiao!
 - Menu bar: cache provider brand icons so merged-icon status updates no longer repeatedly parse SVG assets on the main thread during hover/open animations (#1235, #1274). Thanks @andradebruno, @xingpz2008, and @Yuxin-Qiao!
 - Copilot: treat GitHub Copilot Business token-billing zero-entitlement quotas as unavailable instead of showing misleading 0% used usage (#1258, #1270). Thanks @devYRPauli!
 - Menu bar: prepare closed menus after refresh and only reuse stale dropdown content for data-refresh invalidations so merged menu opens stay responsive without bypassing privacy or structure changes (#1261). Thanks @ProspectOre!
@@ -471,7 +489,7 @@
 ## 0.32.2 — 2026-06-01
 
 ### Added
-- QA: document the live CodexBar e2e flow and add a redacted provider-matrix helper for packaged CLI smoke tests.
+- QA: document the live Usager e2e flow and add a redacted provider-matrix helper for packaged CLI smoke tests.
 
 ### Fixed
 - Menu bar: add breathing room to compact Codex account rows so the provider, account, status, and plan labels no longer hug the row edges.
@@ -480,7 +498,7 @@
 ## 0.32.1 — 2026-05-31
 
 ### Fixed
-- Claude: keep Claude CLI-owned OAuth refresh tokens delegated to Claude Code when CLI storage is present, preventing CodexBar from consuming rotating refresh tokens and forcing re-login (#1161, #1239). Thanks @RajvardhanPatil07!
+- Claude: keep Claude CLI-owned OAuth refresh tokens delegated to Claude Code when CLI storage is present, preventing Usager from consuming rotating refresh tokens and forcing re-login (#1161, #1239). Thanks @RajvardhanPatil07!
 - Menu bar: reuse short-lived Codex account reconciliation snapshots so repeated menu rebuilds do not reread local auth state on every open.
 - Menu bar: defer automatic provider refreshes until after AppKit menu tracking ends so opening the dropdown no longer starts work that can freeze focus and keyboard input.
 - Menu bar: suppress background keychain and OpenAI dashboard work during startup/menu tracking so the dropdown stays clickable without macOS keychain prompts or WebKit memory spikes.
@@ -499,14 +517,14 @@
 - Codex: cancel OpenAI WebKit dashboard refreshes promptly and avoid an immediate second background WebView retry after timeouts, reducing launch-time Web Content CPU spikes (#1217).
 - Menu: refresh open Codex menu adjuncts as dashboard, credits, token-cost, and plan-history data become ready after cold start (#1150). Thanks @AmrMohamad!
 - Menu bar: defer background parent-menu rebuilds until AppKit menu tracking ends so late-arriving usage data cannot stall dropdown hover on macOS 26.5 (#1227).
-- Menu bar: give CodexBar status items stable placement identities while preserving existing upgrade placement state (#1216). Thanks @pdurlej!
+- Menu bar: give Usager status items stable placement identities while preserving existing upgrade placement state (#1216). Thanks @pdurlej!
 - Release: isolate notarization API keys and upload ZIPs in a private per-run temporary directory instead of predictable shared /tmp paths (#1228). Thanks @Hinotoi-agent!
 - Status: retry startup refreshes a few times after transient offline/network failures so provider status can recover after macOS brings the network online (#1211).
 
 ## 0.31.0 — 2026-05-28
 
 ### Changed
-- Docs: update the Homebrew install command to use the official `codexbar` cask now that it supports Intel Macs (#1189). Thanks @SSakutaro!
+- Docs: update the Homebrew install command to use the official `usager` cask now that it supports Intel Macs (#1189). Thanks @SSakutaro!
 - Tests: document and audit that routine validation must not trigger macOS Keychain prompts.
 - Localization: localize popup panels and provider settings UI across supported languages (#1181). Thanks @jack24254029!
 - Localization: complete Brazilian Portuguese coverage so pt-BR no longer falls back to English for new UI strings (#1188). Thanks @ManuzimFerreira!
@@ -517,7 +535,7 @@
 - Localization: add Swedish as a selectable app language (#1186). Thanks @yeager!
 
 ### Fixed
-- CLI: bound `codexbar serve` requests with a configurable timeout and coalesce concurrent cache misses so hung `/usage` callers no longer stampede provider refreshes (#1208). Thanks @enieuwy!
+- CLI: bound `usager serve` requests with a configurable timeout and coalesce concurrent cache misses so hung `/usage` callers no longer stampede provider refreshes (#1208). Thanks @enieuwy!
 - Claude: add Opus 4.8 to the built-in pricing fallback so stale models.dev caches still show token cost (#1214, fixes #1210). Thanks @devYRPauli!
 - Codex: preserve authorized web dashboard credits-only snapshots instead of treating missing usage windows as a failed refresh (#1206, fixes #1204). Thanks @soumikbhatta!
 - Cost history: make token-cost JSONL scans cancellation-aware so quitting, forced refreshes, and account switches can stop stale scans sooner.
@@ -529,7 +547,7 @@
 ## 0.30.1 — 2026-05-28
 
 ### Changed
-- CLI: make `codexbar diagnose` use a generic safe provider diagnostic export for all providers, with MiniMax details attached only as provider-specific metadata.
+- CLI: make `usager diagnose` use a generic safe provider diagnostic export for all providers, with MiniMax details attached only as provider-specific metadata.
 
 ### Fixed
 - Settings: add trailing breathing room to provider-sidebar controls (#1183). Thanks @Yuxin-Qiao!
@@ -550,7 +568,7 @@
 - Widgets: package the macOS widget as a real Xcode app-extension target so WidgetKit descriptors load on macOS 26.5 (#1095). Thanks @jamesjlopez!
 - Menu: render quota-warning markers as subtle inset ticks instead of full-height bars (#1149).
 - Codex: show sign-in guidance when the Codex CLI is logged out instead of reporting a temporary usage outage (#1171, fixes #1170). Thanks @jskoiz!
-- Menu bar: clear stale hidden macOS status-item visibility defaults once before creating CodexBar items (#1169).
+- Menu bar: clear stale hidden macOS status-item visibility defaults once before creating Usager items (#1169).
 - StepFun: refresh expired Oasis tokens and persist recovered manual sessions. Thanks @LeoLin990405!
 - Release: prevent manual CLI artifact builds from publishing or clobbering release assets (#1154). Thanks @jskoiz!
 - Cost history: route OpenAI and Mistral API spend through the shared cost-history cards, including OpenAI request counts (#1163). Thanks @LeoLin990405!
@@ -577,7 +595,7 @@
 - Codex: avoid overcounting forked sessions when parent logs are missing while still counting incremental usage (#1143). Thanks @jskoiz!
 - Groq: show a distinct Groq provider icon instead of reusing the Grok glyph (#1112). Thanks @kiankyars!
 - Claude: normalize OAuth extra-usage spend limits from minor units so Enterprise spend displays as currency instead of 100x too high (#1114, fixes #1111). Thanks @Yuxin-Qiao!
-- Menu bar: preserve status item identity during display-change recovery so menu bar managers do not treat CodexBar as a new hidden item (#1122, fixes #1109). Thanks @lederniermagicien!
+- Menu bar: preserve status item identity during display-change recovery so menu bar managers do not treat Usager as a new hidden item (#1122, fixes #1109). Thanks @lederniermagicien!
 - OpenAI: retry transient Admin API usage failures once before surfacing an access error (#1117).
 - OpenCode Go: read local usage history before falling back to browser-cookie dashboard fetches (#1021). Thanks @sopenlaz0!
 - Menu bar: show extra-usage spend as currency text for Claude and Cursor when that metric is selected (#1107). Thanks @Yuxin-Qiao!
@@ -633,7 +651,7 @@
 - Antigravity: detect the new 2.0 unsuffixed `language_server` process so local IDE usage probing works again (#1049). Thanks @urbanonymous!
 - Claude: prevent headless CLI usage probes from creating Claude Code URL Handler apps in Launchpad (#1047).
 - Codex: invalidate local cost-history caches from the scanner source hash so parser fixes rebuild stale cached rows automatically (#1042). Thanks @hhh2210!
-- Release: update Homebrew automation so CodexBar releases publish both the CLI formula and app cask from the same workflow.
+- Release: update Homebrew automation so Usager releases publish both the CLI formula and app cask from the same workflow.
 
 ## 0.27.0 — 2026-05-18
 
@@ -649,9 +667,9 @@
 - MiniMax: add web-session billing-history summaries with 30-day token charts and top model/method breakdowns (#1007).
 - OpenCode Go: show the optional Zen pay-as-you-go balance from the workspace dashboard alongside subscription windows (#1006).
 - Kiro: add overage-credit and overage-cost menu bar display modes for exhausted plans (#972). Thanks @raflyazf!
-- CLI: add `codexbar config set-api-key` for safely storing provider API keys from stdin.
-- CLI: add `codexbar config providers`, `enable`, and `disable` for scripting the same provider toggles used by Settings.
-- CLI: let `--all-accounts` and `codexbar serve` export every visible Codex account instead of only the selected account (#1019).
+- CLI: add `usager config set-api-key` for safely storing provider API keys from stdin.
+- CLI: add `usager config providers`, `enable`, and `disable` for scripting the same provider toggles used by Settings.
+- CLI: let `--all-accounts` and `usager serve` export every visible Codex account instead of only the selected account (#1019).
 - Permissions: notify when a provider probe detects a macOS/browser permission prompt waiting for user action (#456).
 - Quota warnings: include the triggering account in notification copy when personal info is visible (#973). Thanks @raflyazf!
 - Website: replace provider-letter tiles with brand logos, add light/dark landing-page themes, and collapse OpenCode/OpenCode Go into one company entry (#989). Thanks @pasangimhana!
@@ -690,7 +708,7 @@
 - Ollama: let automatic session import fall back from Chrome to Safari, Comet, and the rest of the browser import order when Chrome has no Ollama session (#962).
 - Kimi K2: label the legacy provider as unofficial and remove links that presented the legacy endpoint as an official Kimi account surface (#967, fixes #473). Thanks @mturac!
 - CLI: use explicit provider HTTP timeouts so blocked network connections fail instead of leaving usage commands stuck for days (#1005, fixes #1004). Thanks @msmolkin!
-- CLI: reject non-loopback `Host` headers in `codexbar serve` before serving local usage and cost metadata (#995). Thanks @rohitjavvadi!
+- CLI: reject non-loopback `Host` headers in `usager serve` before serving local usage and cost metadata (#995). Thanks @rohitjavvadi!
 - Packaging: skip slow widget App Intents metadata during dev restarts and preserve the previous app bundle if required metadata generation times out.
 - Localization: fall back to English when a bundled localized string is blank instead of rendering empty menu/settings text (#952). Thanks @xiaoqianWX!
 - Settings: localize the provider storage usage toggle in the Advanced pane (#985, fixes #971). Thanks @tanish19078!
@@ -699,7 +717,7 @@
 
 ### Added
 - OpenAI API: show Admin API usage inline with Today/7d/30d summaries, a 30-day spend graph, and an interactive detail chart for daily spend, tokens, and requests.
-- CLI: add `codexbar serve` for localhost JSON access to usage and cost endpoints (#957). Thanks @ThiagoCAltoe!
+- CLI: add `usager serve` for localhost JSON access to usage and cost endpoints (#957). Thanks @ThiagoCAltoe!
 
 ### Fixed
 - OpenCode Go: block cross-host redirects when fetching usage so imported cookies cannot follow external redirect targets (#969). Thanks @pavbar!
@@ -741,7 +759,7 @@
 - Updates: make the restart/apply-update menu action use Sparkle's prepared install callback on the first click (#947). Thanks @velvet-shark!
 - Multi-account menus: keep stacked token-account cards capped to current accounts and ignore stale snapshots from removed accounts (#949).
 - Droid: accept pasted Factory `Authorization: Bearer` headers and bearer tokens for manual sessions when cookies alone are insufficient (#914).
-- Menu bar: detect when macOS Tahoe hides CodexBar behind the new Allow in Menu Bar setting and show recovery guidance (#945, fixes #890). Thanks @pdurlej!
+- Menu bar: detect when macOS Tahoe hides Usager behind the new Allow in Menu Bar setting and show recovery guidance (#945, fixes #890). Thanks @pdurlej!
 - CLI: route Claude token-account `--source cli` reads through the selected OAuth/session credential so `--all-accounts` no longer relabels ambient CLI usage (#403).
 - Codex: route menu account refreshes through the resolved live-vs-managed account source so matched accounts keep using the stable `CODEX_HOME` (#932, fixes #931). Thanks @ThiagoCAltoe!
 - Gemini: refresh OAuth credentials when the CLI has a refresh token but no cached access token instead of reporting "not logged in" after authentication (#915).
@@ -750,7 +768,7 @@
 - Codex: coalesce historical pace reset timestamps into 5-minute buckets so dashboard and live reset jitter do not duplicate weekly history windows (#901). Thanks @zhulijin1991!
 - Menu: middle-truncate long account emails in Codex account controls and keep the Codex account switcher visible during merged-menu refreshes with transient account snapshots.
 - Settings: apply the selected app language from packaged SwiftPM resources instead of falling back to English when the `.lproj` directory casing differs (#908).
-- Settings: let stale managed Codex account records be removed even when their stored home path is outside CodexBar's managed-home directory, and keep CLI known-owner tests from writing fixtures into the live app store.
+- Settings: let stale managed Codex account records be removed even when their stored home path is outside Usager's managed-home directory, and keep CLI known-owner tests from writing fixtures into the live app store.
 - ChatGPT credits: restrict purchase links to real HTTPS `chatgpt.com` settings/usage/billing/credits paths and drop query/fragment data (#903). Thanks @ThiagoCAltoe!
 - z.ai: show the MCP quota bucket as monthly instead of a misleading 1-minute window (#904). Thanks @ThiagoCAltoe!
 - Kimi: rebalance provider icon alignment within its viewBox (#912). Thanks @giuseppebisemi!
@@ -763,7 +781,7 @@
 - Settings: avoid packaged-app crashes from SwiftPM localization bundle lookup when opening Settings or About (#896, fixes #891). Thanks @lederniermagicien!
 - CLI: include a VERSION file in standalone release archives so `--version` reports the release tag outside the app bundle (#898). Thanks @ThiagoCAltoe!
 - Pi: rebuild stale session cost caches after cache-version migrations so refreshed cost history reflects current scanner data.
-- Keychain cache: reduce repeated development prompt churn by trusting the bundled helper when writing CodexBar-owned cache items (#888).
+- Keychain cache: reduce repeated development prompt churn by trusting the bundled helper when writing Usager-owned cache items (#888).
 
 ## 0.25 — 2026-05-10
 
@@ -814,7 +832,7 @@
 - Cost history: keep manual refreshes on the incremental scanner cache and drain per-line JSON parse allocations so large Codex/Claude histories do not trigger full local log rescans and CPU/memory spikes.
 - Cost history: preserve cached models.dev pricing when an upstream catalog only changes a pinned snapshot suffix for the same model family (#883). Thanks @iam-brain!
 - Cost history: preserve per-request tiered pricing boundaries when aggregating Claude/Pi daily reports (#886). Thanks @iam-brain!
-- Keychain cache: trust the bundled CodexBarCLI helper when writing CodexBar-owned cache items, reducing repeated "CodexBar Cache" prompts from CLI usage (#679). Thanks @QuarkAssistant!
+- Keychain cache: trust the bundled UsagerCLI helper when writing Usager-owned cache items, reducing repeated "Usager Cache" prompts from CLI usage (#679). Thanks @QuarkAssistant!
 - Locale: keep relative timestamps in hardcoded-English UI labels consistently English on non-English macOS systems (#868, fixes #866). Thanks @Karl-Dai!
 - Droid: send the bearer JWT subject as the usage `userId` when Factory omits `userProfile.id`, avoiding false login failures (#626). Thanks @CrystalChen1017!
 - Droid: fall back to token/allowance math when the Factory API reports a zero ratio despite non-zero usage (#864). Thanks @proxynico!
@@ -955,7 +973,7 @@
 ### Development & Tooling
 - CLI / Debug: add user-facing browser-cookie cache clearing, including provider-scoped CLI clearing that removes managed Codex account cookie caches (#592, fixes #591). Thanks @coygeek!
 - Diagnostics: add lightweight battery instrumentation for menu updates and refresh work (#708).
-- Build script: make CodexBar-owned ad-hoc keychain cleanup opt-in with `--clear-adhoc-keychain`, and extend the explicit reset path to clear both `com.steipete.CodexBar` and `com.steipete.codexbar.cache`. Thanks @magnaprog!
+- Build script: make Usager-owned ad-hoc keychain cleanup opt-in with `--clear-adhoc-keychain`, and extend the explicit reset path to clear both `com.leandroriviello.Usager` and `com.leandroriviello.usager.cache`. Thanks @magnaprog!
 
 ## 0.20 — 2026-04-07
 
@@ -1073,7 +1091,7 @@
 - CI/tooling reliability improved via pinned lint tools, deterministic macOS test execution, and PTY timing test stabilization plus Node 24-ready GitHub Actions upgrades (#292, #312, #290).
 
 ### Claude OAuth & Keychain
-- Claude OAuth creds are cached in CodexBar Keychain to reduce repeated prompts.
+- Claude OAuth creds are cached in Usager Keychain to reduce repeated prompts.
 - Prompts can still appear when Claude OAuth credentials are expired, invalid, or missing and re-auth is required.
 - In Auto mode, background refresh keeps prompts suppressed; interactive prompts are limited to user actions (menu open or manual refresh).
 - OAuth-only mode remains strict (no silent Web/CLI fallback); Auto mode may do one delegated CLI refresh + one OAuth retry before falling back.
@@ -1209,7 +1227,7 @@
 - CLI: add pink accents, usage bars, and weekly pace lines to text output.
 - CLI: add config-backed provider settings, `--json-only`, and `--source api` for key-based providers.
 - CLI: add `config validate`/`config dump` commands and per-provider JSON error payloads.
-- CLI/App: move provider secrets + ordering to `~/.codexbar/config.json` (no Keychain persistence).
+- CLI/App: move provider secrets + ordering to `~/.usager/config.json` (no Keychain persistence).
 - Providers: resolve API tokens from config/env only (no Keychain fallback).
 
 ### Dev & Tests
@@ -1241,7 +1259,7 @@
 
 ## 0.16.0 — 2025-12-29
 - Menu bar: optional “percent mode” (provider brand icons + percentage labels) via Advanced toggle.
-- CLI: add `codexbar cost` to print local cost usage (text/JSON) for Codex + Claude.
+- CLI: add `usager cost` to print local cost usage (text/JSON) for Codex + Claude.
 - Cost: align local cost scanner with ccusage; stabilize parsing/decoding and handle large JSONL lines.
 - Claude: skip pricing for unknown models (tokens still tracked) to avoid hard-coded legacy prices.
 - Performance: reduce menu bar CPU usage by caching morph icons, skipping redundant status-item updates, and caching provider enablement/order during animations.
@@ -1265,7 +1283,7 @@
 
 ## 0.15.0 — 2025-12-28
 - New providers: Droid (Factory), Cursor, z.ai, Copilot.
-- macOS: CodexBar now supports Intel Macs (x86_64 builds + Sonoma fallbacks). Thanks @epoyraz!
+- macOS: Usager now supports Intel Macs (x86_64 builds + Sonoma fallbacks). Thanks @epoyraz!
 - Droid (Factory): new provider with Standard + Premium usage via browser cookies, plus dashboard + status links. Thanks @shashank-factory!
 - Menu: allow multi-line error messages in the provider subtitle (up to 4 lines).
 - Menu: fix subtitle sizing for multi-line error states.
@@ -1276,7 +1294,7 @@
 - Codex: OpenAI web dashboard is now the primary source for usage + credits; CLI fallback only when no matching cookies exist.
 - Claude: prefer OAuth when credentials exist; fall back to web cookies or CLI (thanks @ibehnam).
 - CLI: replace `--web`/`--claude-source` with `--source` (auto/web/cli/oauth); auto falls back only when cookies are missing.
-- Homebrew: cask now installs the `codexbar` CLI symlink. Thanks @dalisoft!
+- Homebrew: cask now installs the `usager` CLI symlink. Thanks @dalisoft!
 - Cursor: add new usage provider with browser cookie auth (cursor.com + cursor.sh), on-demand bar support, and dashboard access.
 - Cursor: keep stored sessions on transient failures; clear only on invalid auth.
 - z.ai: new provider support with Tokens + MCP usage bars and MCP details submenu; API token now lives in Preferences (stored in Keychain); usage bars respect the show-used toggle. Thanks @uwe-schwarz for the initial work!
@@ -1284,7 +1302,7 @@
 - Preferences: fix Advanced Display checkboxes and move the Quit button to the bottom of General.
 - Preferences: hide “Augment Claude via web” unless Claude usage source is CLI; rename the cost toggle to “Show cost summary”.
 - Preferences: add an Advanced toggle to show/hide optional Codex Credits + Claude Extra usage sections (on by default).
-- Widgets: add a new “CodexBar Switcher” widget that lets you switch providers and remember the selection.
+- Widgets: add a new “Usager Switcher” widget that lets you switch providers and remember the selection.
 - Menu: provider switcher now uses crisp brand icons with equal-width segments and a per-provider usage indicator.
 - Menu: tighten provider switcher sizing and increase spacing between label and weekly indicator bar.
 - Menu: provider switcher no longer forces a wider menu when many providers are enabled; segments clamp to the menu width.
@@ -1292,7 +1310,7 @@
 - Dev: `compile_and_run.sh` now force-kills old instances to avoid launching duplicates.
 - Dev: `compile_and_run.sh` now waits for slow launches (polling for the process).
 - Dev: `compile_and_run.sh` now launches a single app instance (no more extra windows).
-- CI: build/test Linux `CodexBarCLI` (x86_64 + aarch64) and publish release assets as `CodexBarCLI-<tag>-linux-<arch>.tar.gz` (+ `.sha256`).
+- CI: build/test Linux `UsagerCLI` (x86_64 + aarch64) and publish release assets as `UsagerCLI-<tag>-linux-<arch>.tar.gz` (+ `.sha256`).
 - CLI: add alias fallback for Codex/Claude detection when PATH lookups fail.
 - Providers: support Arc browser cookies for Factory/Droid (and other Chromium-based cookie imports).
 - Providers: support ChatGPT Atlas browser data for Chromium cookie imports.
@@ -1393,7 +1411,7 @@
 - Claude trust prompts (“Do you trust the files in this folder?”) are now auto-accepted during probes to prevent stuck refreshes. Thanks @tobihagemann!
 
 ## 0.8.0 — 2025-12-17
-- CodexBar is now available via Homebrew: `brew install --cask steipete/tap/codexbar` (updates via `brew upgrade --cask steipete/tap/codexbar`).
+- Usager is now available via Homebrew: `brew install --cask steipete/tap/usager` (updates via `brew upgrade --cask steipete/tap/usager`).
 - Added session quota notifications for the sliding 5-hour window (Codex + Claude): notifies when it hits 0% and when it’s available again, based only on observed refresh data (including startup when already depleted). Thanks @GKannanDev!
 
 ## 0.7.3 — 2025-12-17
@@ -1428,9 +1446,9 @@
 - Claude CLI probes stop passing `--dangerously-skip-permissions`, aligning with the default permission prompt and avoiding hidden first-run failures.
 
 ## 0.6.0 — 2025-12-04
-- New bundled CLI (`codexbar`) with single `usage` command, `--format text|json`, `--status`, and fast `-h/-V`.
+- New bundled CLI (`usager`) with single `usage` command, `--format text|json`, `--status`, and fast `-h/-V`.
 - CLI output now shows consistent headers (`Codex 0.x.y (codex-cli)`, `Claude Code <ver> (claude)`) and JSON includes `source` + `status`.
-- Advanced prefs install button symlinks `codexbar` into /usr/local/bin and /opt/homebrew/bin; docs refreshed.
+- Advanced prefs install button symlinks `usager` into /usr/local/bin and /opt/homebrew/bin; docs refreshed.
 
 ## 0.5.7 — 2025-11-26
 - Status Page and Usage Dashboard menu actions now honor the icon you click; Codex menus no longer open the Claude status site.
@@ -1512,7 +1530,7 @@
 
 ## 0.2.0 — 2025-11-16
 - CADisplayLink-based loading animations (macOS 15 displayLink API) with randomized patterns (Knight Rider, Cylon, outside-in, race, pulse) and debug replay cycling through all.
-- Debug replay toggle (`defaults write com.steipete.codexbar debugMenuEnabled -bool YES`) to view every pattern.
+- Debug replay toggle (`defaults write com.leandroriviello.usager debugMenuEnabled -bool YES`) to view every pattern.
 - Usage Dashboard link in menu; menu layout tweaked.
 - Updated time now shows relative formatting when fresher than 24h; refactored sources into smaller files for maintainability.
 - Version bumped to 0.2.0 (4).
@@ -1530,10 +1548,10 @@
 - Usage parser scans newest session logs until it finds `token_count` events.
 - Icon pipeline fixed: regenerated `.icns` via ictool with proper transparency (docs in docs/icon.md).
 - Added lint/format configs, Swift Testing, strict concurrency, and usage parser tests.
-- Notarized release build "CodexBar-0.1.0.zip" remains current artifact; app version 0.1.1.
+- Notarized release build "Usager-0.1.0.zip" remains current artifact; app version 0.1.1.
 
 ## 0.1.0 — 2025-11-16
-- Initial CodexBar release: macOS 15+ menu bar app, no Dock icon.
+- Initial Usager release: macOS 15+ menu bar app, no Dock icon.
 - Reads latest Codex CLI `token_count` events from session logs (5h + weekly usage, reset times); no extra login or browser scraping.
 - Shows account email/plan decoded locally from `auth.json`.
 - Horizontal dual-bar icon (top = 5h, bottom = weekly); dims on errors.

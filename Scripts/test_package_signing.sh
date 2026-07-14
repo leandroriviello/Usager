@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
 PACKAGE_SCRIPT="$ROOT/Scripts/package_app.sh"
 RELEASE_SCRIPT="$ROOT/Scripts/sign-and-notarize.sh"
-FUNCTIONS_FILE=$(mktemp "${TMPDIR:-/tmp}/codexbar-package-signing-functions.XXXXXX")
+FUNCTIONS_FILE=$(mktemp "${TMPDIR:-/tmp}/usager-package-signing-functions.XXXXXX")
 trap 'rm -f "$FUNCTIONS_FILE"' EXIT
 
 python3 - "$PACKAGE_SCRIPT" "$FUNCTIONS_FILE" <<'PY'
@@ -19,21 +19,21 @@ PY
 
 source "$FUNCTIONS_FILE"
 
-unset CODEXBAR_SIGNING
+unset USAGER_SIGNING
 SIGNING_MODE=
 resolve_package_signing_mode
 [[ "$SIGNING_MODE" == "adhoc" ]]
 
-CODEXBAR_SIGNING=identity
+USAGER_SIGNING=identity
 resolve_package_signing_mode
 [[ "$SIGNING_MODE" == "identity" ]]
 
-CODEXBAR_SIGNING=invalid
+USAGER_SIGNING=invalid
 if resolve_package_signing_mode 2>/dev/null; then
   echo "Invalid package signing mode unexpectedly succeeded" >&2
   exit 1
 fi
 
-grep -Fq 'CODEXBAR_SIGNING=identity ./Scripts/package_app.sh release' "$RELEASE_SCRIPT"
+grep -Fq 'USAGER_SIGNING=identity ./Scripts/package_app.sh release' "$RELEASE_SCRIPT"
 
 echo "Package signing tests passed."

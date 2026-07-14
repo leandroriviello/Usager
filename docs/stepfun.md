@@ -15,7 +15,7 @@ authenticated via an Oasis-Token obtained through a username + password login fl
 
 1. **Authentication** — Three methods (in priority order):
    - **Auto mode**: Username + password entered in Settings → Providers → StepFun.
-     CodexBar performs a 3-step login flow to obtain an Oasis-Token:
+     Usager performs a 3-step login flow to obtain an Oasis-Token:
        1. `GET https://platform.stepfun.com` → `INGRESSCOOKIE`
        2. `POST …/RegisterDevice` → anonymous token
        3. `POST …/SignInByPassword` → authenticated Oasis-Token
@@ -49,9 +49,9 @@ authenticated via an Oasis-Token obtained through a username + password login fl
 
 ## Key files
 
-- `Sources/CodexBarCore/Providers/StepFun/StepFunProviderDescriptor.swift` (descriptor + web fetch strategy)
-- `Sources/CodexBarCore/Providers/StepFun/StepFunUsageFetcher.swift` (login flow + HTTP client + JSON parser)
-- `Sources/CodexBarCore/Providers/StepFun/StepFunSettingsReader.swift` (env var resolution)
-- `Sources/CodexBar/Providers/StepFun/StepFunProviderImplementation.swift` (settings fields + activation logic)
-- `Sources/CodexBar/Providers/StepFun/StepFunSettingsStore.swift` (SettingsStore extension)
-- `Tests/CodexBarTests/StepFunUsageFetcherTests.swift` (22 test cases)
+- `Sources/UsagerCore/Providers/StepFun/StepFunProviderDescriptor.swift` (descriptor + web fetch strategy)
+- `Sources/UsagerCore/Providers/StepFun/StepFunUsageFetcher.swift` (login flow + HTTP client + JSON parser)
+- `Sources/UsagerCore/Providers/StepFun/StepFunSettingsReader.swift` (env var resolution)
+- `Sources/Usager/Providers/StepFun/StepFunProviderImplementation.swift` (settings fields + activation logic)
+- `Sources/Usager/Providers/StepFun/StepFunSettingsStore.swift` (SettingsStore extension)
+- `Tests/UsagerTests/StepFunUsageFetcherTests.swift` (22 test cases)

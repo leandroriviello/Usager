@@ -1,63 +1,63 @@
 ---
-summary: "CodexBar CLI for fetching usage from the command line."
+summary: "Usager CLI for fetching usage from the command line."
 read_when:
-  - "You want to call CodexBar data from scripts or a terminal."
+  - "You want to call Usager data from scripts or a terminal."
   - "Adding or modifying Commander-based CLI commands."
   - "Aligning menubar and CLI output/behavior."
 ---
 
-# CodexBar CLI
+# Usager CLI
 
 A lightweight Commander-based CLI that mirrors the menu bar app’s provider fetchers and config file.
 Use it when you need usage numbers in scripts, CI, or dashboards without UI.
 
 ## Install
-- In the app: **Preferences → Advanced → Install CLI**. This symlinks `CodexBarCLI` to `/usr/local/bin/codexbar` and `/opt/homebrew/bin/codexbar`.
-- From the repo, after installing `CodexBar.app` in `/Applications`: `./bin/install-codexbar-cli.sh` (same symlink targets).
-- Manual: `ln -sf "/Applications/CodexBar.app/Contents/Helpers/CodexBarCLI" /usr/local/bin/codexbar`.
+- In the app: **Preferences → Advanced → Install CLI**. This symlinks `UsagerCLI` to `/usr/local/bin/usager` and `/opt/homebrew/bin/usager`.
+- From the repo, after installing `Usager.app` in `/Applications`: `./bin/install-usager-cli.sh` (same symlink targets).
+- Manual: `ln -sf "/Applications/Usager.app/Contents/Helpers/UsagerCLI" /usr/local/bin/usager`.
 
 ### Release tarball install (macOS/Linux)
-- Homebrew formula (Linux today): `brew install steipete/tap/codexbar`.
+- Homebrew formula (Linux today): `brew install steipete/tap/usager`.
 - Download release tarballs from GitHub Releases:
-  - macOS: `CodexBarCLI-v<tag>-macos-arm64.tar.gz`, `CodexBarCLI-v<tag>-macos-x86_64.tar.gz`
-  - Linux (glibc): `CodexBarCLI-v<tag>-linux-aarch64.tar.gz`, `CodexBarCLI-v<tag>-linux-x86_64.tar.gz`
-  - Linux (static musl): `CodexBarCLI-v<tag>-linux-musl-aarch64.tar.gz`, `CodexBarCLI-v<tag>-linux-musl-x86_64.tar.gz`
-- Extract and run `./codexbar` (symlink) or `./CodexBarCLI`.
+  - macOS: `UsagerCLI-v<tag>-macos-arm64.tar.gz`, `UsagerCLI-v<tag>-macos-x86_64.tar.gz`
+  - Linux (glibc): `UsagerCLI-v<tag>-linux-aarch64.tar.gz`, `UsagerCLI-v<tag>-linux-x86_64.tar.gz`
+  - Linux (static musl): `UsagerCLI-v<tag>-linux-musl-aarch64.tar.gz`, `UsagerCLI-v<tag>-linux-musl-x86_64.tar.gz`
+- Extract and run `./usager` (symlink) or `./UsagerCLI`.
 
 ```
-tar -xzf CodexBarCLI-v0.17.0-macos-x86_64.tar.gz
-./codexbar --version
-./codexbar usage --format json --pretty
+tar -xzf UsagerCLI-v0.17.0-macos-x86_64.tar.gz
+./usager --version
+./usager usage --format json --pretty
 ```
 
 ## Build
-- `./Scripts/package_app.sh` (or `./Scripts/compile_and_run.sh`) bundles `CodexBarCLI` into `CodexBar.app/Contents/Helpers/CodexBarCLI`.
-- Standalone: `swift build -c release --product CodexBarCLI` (binary at `./.build/release/CodexBarCLI`).
+- `./Scripts/package_app.sh` (or `./Scripts/compile_and_run.sh`) bundles `UsagerCLI` into `Usager.app/Contents/Helpers/UsagerCLI`.
+- Standalone: `swift build -c release --product UsagerCLI` (binary at `./.build/release/UsagerCLI`).
 - Dependencies: Swift 6.2+, Commander package (`https://github.com/steipete/Commander`).
 
 ## Configuration
-CodexBar reads the resolved config file for provider settings, secrets, and ordering. New installs use
-`~/.config/codexbar/config.json`; absolute `XDG_CONFIG_HOME` paths and `CODEXBAR_CONFIG` are supported, and existing
-`~/.codexbar/config.json` installs keep using the legacy file when no XDG config exists.
+Usager reads the resolved config file for provider settings, secrets, and ordering. New installs use
+`~/.config/usager/config.json`; absolute `XDG_CONFIG_HOME` paths and `USAGER_CONFIG` are supported, and existing
+`~/.usager/config.json` installs keep using the legacy file when no XDG config exists.
 See `docs/configuration.md` for the schema.
 
 ## Command
-- `codexbar` defaults to the `usage` command.
+- `usager` defaults to the `usage` command.
   - `--format text|json` (default: text).
-- `codexbar cost` prints local token cost usage for Claude + Codex without web/CLI access.
+- `usager cost` prints local token cost usage for Claude + Codex without web/CLI access.
   - `--format text|json` (default: text).
   - `--refresh` ignores cached scans.
-- `codexbar cards` prints a one-shot usage snapshot as a responsive terminal card grid.
-  - Reuses the same provider, source, account, credits, and status flags as `codexbar usage`.
+- `usager cards` prints a one-shot usage snapshot as a responsive terminal card grid.
+  - Reuses the same provider, source, account, credits, and status flags as `usager usage`.
   - Account lines and plan badges are included in the card grid by default.
   - `--brief` renders a compact table (Provider / Usage / Reset) instead of the card grid.
   - Stdout is always rendered text; `--json-output` only affects stderr logs (no JSON card payload).
   - Failed providers are summarized in a footer (not rendered as error cards).
   - Honors `$COLUMNS` for layout; falls back to 80 columns. Use `--no-color` for plain output.
   - Kitty, Ghostty, WezTerm, and other truecolor terminals auto-enable enhanced gradients/outlines.
-  - Force enhanced mode elsewhere with `CODEXBAR_CARDS_ENHANCED=1`.
+  - Force enhanced mode elsewhere with `USAGER_CARDS_ENHANCED=1`.
   - Exit code is non-zero when any provider fetch fails.
-- `codexbar serve` starts a foreground localhost-only HTTP server for usage and cost JSON.
+- `usager serve` starts a foreground localhost-only HTTP server for usage and cost JSON.
   - `--port <port>` defaults to `8080`.
   - `--refresh-interval <seconds>` defaults to `60` and controls the in-memory response cache TTL.
   - `--request-timeout <seconds>` defaults to `30` and bounds each request before returning `504 Gateway Timeout`; use `0` to keep waiting indefinitely.
@@ -65,10 +65,10 @@ See `docs/configuration.md` for the schema.
   - Transient refresh failures fall back to the last good response for up to ten refresh intervals (minimum five minutes) so polling clients do not flicker between data and errors; disabled when `--refresh-interval 0`.
   - v1 binds to `127.0.0.1` only and rejects non-loopback `Host` headers. It does not expose remote bind, auth, CORS, TLS, or daemon mode.
   - Endpoints: `GET /health`, `GET /usage`, `GET /usage?provider=<id|both|all>`, `GET /cost`, `GET /cost?provider=<id|both|all>`.
-  - `GET /health` returns `{"status":"ok"}` plus a `version` field with the running build (e.g. `"0.37.2"`) when resolvable; clients can compare it against `codexbar --version` to detect a `serve` process still running an older binary after an update.
+  - `GET /health` returns `{"status":"ok"}` plus a `version` field with the running build (e.g. `"0.37.2"`) when resolvable; clients can compare it against `usager --version` to detect a `serve` process still running an older binary after an update.
   - Codex usage responses include every visible Codex account, matching the menu bar switcher.
-- `codexbar cache clear` clears local CodexBar caches.
-  - `--cookies` removes cached browser-cookie headers from the CodexBar Keychain cache.
+- `usager cache clear` clears local Usager caches.
+  - `--cookies` removes cached browser-cookie headers from the Usager Keychain cache.
   - `--cookies --provider <id>` removes browser-cookie cache entries for that provider, including managed Codex account scopes.
   - `--cost` removes local cost-usage scan caches.
   - `--all` clears both cookies and cost caches. `--provider` is cookie-only and cannot be combined with `--cost` or `--all`.
@@ -99,10 +99,10 @@ See `docs/configuration.md` for the schema.
 - Global flags: `-h/--help`, `-V/--version`, `-v/--verbose`, `--no-color`, `--log-level <trace|verbose|debug|info|warning|error|critical>`, `--json-output`, `--json-only`.
   - `--json-output`: JSONL logs on stderr (machine-readable).
   - `--json-only`: suppress non-JSON output; errors become JSON payloads.
-- `codexbar config validate` checks the resolved config file for invalid fields.
+- `usager config validate` checks the resolved config file for invalid fields.
   - `--format text|json`, `--pretty`, and `--json-only` are supported.
   - Warnings keep exit code 0; errors exit non-zero.
-- `codexbar config dump` prints the normalized config JSON.
+- `usager config dump` prints the normalized config JSON.
 
 ### Token accounts
 The CLI reads multi-account tokens from the same resolved config file as the app.
@@ -114,13 +114,13 @@ For Claude, token accounts accept either `sessionKey` cookies or OAuth access to
 OAuth usage requires the `user:profile` scope; inference-only tokens will return an error.
 
 ### Codex accounts
-For Codex, `--all-accounts` and `codexbar serve` enumerate the same visible accounts as the app switcher:
+For Codex, `--all-accounts` and `usager serve` enumerate the same visible accounts as the app switcher:
 managed Codex accounts from `managed-codex-accounts.json` plus the live system account when present.
 Each fetch is scoped to that account's Codex home before the normal Codex web/OAuth/CLI strategy runs, and JSON
 payloads include the visible account label in `account`.
 
 ### Cost JSON payload
-`codexbar cost --format json` emits an array of payloads (one per provider).
+`usager cost --format json` emits an array of payloads (one per provider).
 - `provider`, `source`, `updatedAt`
 - `sessionTokens`, `sessionCostUSD`
 - `last30DaysTokens`, `last30DaysCostUSD`
@@ -130,35 +130,35 @@ payloads include the visible account label in `account`.
 
 ## Example usage
 ```
-codexbar                          # text, respects app toggles
-codexbar --provider claude        # force Claude
-codexbar --provider all           # query all registered providers
-codexbar --format json --pretty   # machine output
-codexbar --format json --provider both
-codexbar cost                     # local cost usage (default 30-day window + today)
-codexbar cost --days 90           # choose a 1...365 day cost window
-codexbar cost --provider codex --group-by project
-codexbar cost --provider claude --format json --pretty
-codexbar serve --port 8080        # localhost HTTP JSON server
-codexbar serve --request-timeout 0 # disable serve request deadlines
-COPILOT_API_TOKEN=... codexbar --provider copilot --format json --pretty
-codexbar --status                 # include status page indicator/description
-codexbar --provider codex --source oauth --format json --pretty
-codexbar --provider codex --source web --format json --pretty
-codexbar --provider codex --all-accounts --format json --pretty
-codexbar --provider claude --account steipete@gmail.com
-codexbar --provider claude --all-accounts --format json --pretty
-codexbar --json-only --format json --pretty
-codexbar --provider gemini --source api --format json --pretty
-KILO_API_KEY=... codexbar --provider kilo --source api --format json --pretty
-MOONSHOT_API_KEY=... codexbar --provider moonshot --source api --format json --pretty
-codexbar config validate --format json --pretty
-codexbar config dump --pretty
-printf '%s' "$OPENAI_ADMIN_KEY" | codexbar config set-api-key --provider openai --stdin
-codexbar config enable --provider grok
-codexbar cache clear --cookies
-codexbar cache clear --cookies --provider claude
-codexbar cache clear --all --format json --pretty
+usager                          # text, respects app toggles
+usager --provider claude        # force Claude
+usager --provider all           # query all registered providers
+usager --format json --pretty   # machine output
+usager --format json --provider both
+usager cost                     # local cost usage (default 30-day window + today)
+usager cost --days 90           # choose a 1...365 day cost window
+usager cost --provider codex --group-by project
+usager cost --provider claude --format json --pretty
+usager serve --port 8080        # localhost HTTP JSON server
+usager serve --request-timeout 0 # disable serve request deadlines
+COPILOT_API_TOKEN=... usager --provider copilot --format json --pretty
+usager --status                 # include status page indicator/description
+usager --provider codex --source oauth --format json --pretty
+usager --provider codex --source web --format json --pretty
+usager --provider codex --all-accounts --format json --pretty
+usager --provider claude --account steipete@gmail.com
+usager --provider claude --all-accounts --format json --pretty
+usager --json-only --format json --pretty
+usager --provider gemini --source api --format json --pretty
+KILO_API_KEY=... usager --provider kilo --source api --format json --pretty
+MOONSHOT_API_KEY=... usager --provider moonshot --source api --format json --pretty
+usager config validate --format json --pretty
+usager config dump --pretty
+printf '%s' "$OPENAI_ADMIN_KEY" | usager config set-api-key --provider openai --stdin
+usager config enable --provider grok
+usager cache clear --cookies
+usager cache clear --cookies --provider claude
+usager cache clear --all --format json --pretty
 ```
 
 ### Sample output (text)
@@ -257,7 +257,7 @@ Note: Using CLI fallback
 - Kilo text output splits identity into `Plan:` and `Activity:` lines; in `--source auto`, resolved CLI fetches add
   `Note: Using CLI fallback`.
 - Kilo auto-mode failures include a fallback-attempt summary line in text mode (API attempt then CLI attempt).
-- OpenAI web requires a signed-in `chatgpt.com` session in a supported browser or a manual cookie header. No passwords are stored; CodexBar reuses cookies.
-- Safari cookie import may require granting CodexBar Full Disk Access (System Settings → Privacy & Security → Full Disk Access).
+- OpenAI web requires a signed-in `chatgpt.com` session in a supported browser or a manual cookie header. No passwords are stored; Usager reuses cookies.
+- Safari cookie import may require granting Usager Full Disk Access (System Settings → Privacy & Security → Full Disk Access).
 - The `openaiDashboard` JSON field is normally sourced from the app’s cached dashboard snapshot; `--source auto|web` refreshes it live via WebKit using a per-account cookie store.
 - Future: optional `--from-cache` flag to read the menubar app’s persisted snapshot (if/when that file lands).

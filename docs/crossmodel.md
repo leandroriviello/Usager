@@ -24,12 +24,12 @@ export CROSSMODEL_API_KEY="cm-..."
 
 ### Settings
 
-You can also configure the API key in CodexBar Settings → Providers → CrossModel.
+You can also configure the API key in Usager Settings → Providers → CrossModel.
 
 ### CLI config
 
 ```bash
-printf '%s' "$CROSSMODEL_API_KEY" | codexbar config set-api-key --provider crossmodel --stdin
+printf '%s' "$CROSSMODEL_API_KEY" | usager config set-api-key --provider crossmodel --stdin
 ```
 
 ## Data Source
@@ -38,7 +38,7 @@ The CrossModel provider fetches data from two read-only API endpoints:
 
 1. **Credits API** (`/v1/credits`): Returns the wallet balance (`balance_micro`), currency, and any in-flight holds (`uncollected_micro`). All amounts are integer micro units (1 major currency unit = 1,000,000 micro).
 
-2. **Usage API** (`/v1/usage`): Returns currency plus spend, token, and request counts for the current UTC day, ISO week, and calendar month. CodexBar only displays usage spend when `/usage` currency matches `/credits` currency.
+2. **Usage API** (`/v1/usage`): Returns currency plus spend, token, and request counts for the current UTC day, ISO week, and calendar month. Usager only displays usage spend when `/usage` currency matches `/credits` currency.
 
 ## Display
 
@@ -51,8 +51,8 @@ The CrossModel menu card shows:
 ## CLI Usage
 
 ```bash
-codexbar --provider crossmodel
-codexbar -p cm  # alias
+usager --provider crossmodel
+usager -p cm  # alias
 ```
 
 ## Environment Variables

@@ -14,7 +14,7 @@ Cursor is primarily web-backed. Usage is fetched via browser cookies or a stored
 
 1) **Cached cookie header** (preferred)
    - Stored after successful browser import.
-   - Keychain cache: `com.steipete.codexbar.cache` (account `cookie.cursor`).
+   - Keychain cache: `com.leandroriviello.usager.cache` (account `cookie.cursor`).
 
 2) **Browser cookie import**
    - Cookie order from provider metadata (default: Safari → Chrome → Firefox).
@@ -27,7 +27,7 @@ Cursor is primarily web-backed. Usage is fetched via browser cookies or a stored
 3) **Stored session cookies** (fallback)
    - Captured by the "Add Account" WebKit login flow.
    - Login teardown uses `WebKitTeardown` to avoid Intel WebKit crashes.
-   - Stored at: `~/Library/Application Support/CodexBar/cursor-session.json`.
+   - Stored at: `~/Library/Application Support/Usager/cursor-session.json`.
 
 4) **Cursor.app local auth** (last fallback)
    - Reads Cursor.app's VS Code-style global state DB for the local app bearer token.
@@ -57,12 +57,12 @@ Manual option:
 - Firefox: `~/Library/Application Support/Firefox/Profiles/*/cookies.sqlite`
 
 ## Linux CLI
-- `codexbar usage --provider cursor` reads the signed-in Cursor app's access token from the Linux global state DB and reuses the same `cursor.com` usage endpoints as macOS.
+- `usager usage --provider cursor` reads the signed-in Cursor app's access token from the Linux global state DB and reuses the same `cursor.com` usage endpoints as macOS.
 - Automatic browser cookie import and the in-app WebKit login flow remain macOS-only.
-- Manual cookie headers from `~/.config/codexbar/config.json` (or legacy `~/.codexbar/config.json`) work on Linux.
+- Manual cookie headers from `~/.config/usager/config.json` (or legacy `~/.usager/config.json`) work on Linux.
 
 ## Local storage footprint
-When **Settings → Advanced → Track provider local storage** is enabled on macOS, CodexBar measures:
+When **Settings → Advanced → Track provider local storage** is enabled on macOS, Usager measures:
 - `~/Library/Application Support/Cursor`
 - `~/Library/Application Support/Caches/cursor-updater`
 - `~/.cursor`
@@ -72,7 +72,7 @@ When **Settings → Advanced → Track provider local storage** is enabled on ma
 - `~/Library/Caches/cursor-compile-cache`
 - `~/Library/HTTPStorages/com.todesktop.230313mzl4w4u92`
 
-The storage detail lists measured paths and their sizes. CodexBar does not delete Cursor data.
+The storage detail lists measured paths and their sizes. Usager does not delete Cursor data.
 
 ## Snapshot mapping
 - Primary: plan usage percent (included plan).
@@ -82,5 +82,5 @@ The storage detail lists measured paths and their sizes. CodexBar does not delet
 - Reset: billing cycle end date.
 
 ## Key files
-- `Sources/CodexBarCore/Providers/Cursor/CursorStatusProbe.swift`
-- `Sources/CodexBar/CursorLoginRunner.swift` (login flow)
+- `Sources/UsagerCore/Providers/Cursor/CursorStatusProbe.swift`
+- `Sources/Usager/CursorLoginRunner.swift` (login flow)

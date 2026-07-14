@@ -9,7 +9,7 @@ read_when:
 # Moonshot / Kimi API provider
 
 Moonshot / Kimi API is API-only. Balance is reported by `GET /v1/users/me/balance`,
-so CodexBar only needs a valid API key to show the current account balance.
+so Usager only needs a valid API key to show the current account balance.
 
 ## Rationale
 
@@ -24,8 +24,8 @@ separate cleanup so existing user settings are not silently repointed.
 
 ## Data sources
 
-1. **API key** stored in `~/.codexbar/config.json` or supplied via `MOONSHOT_API_KEY` / `MOONSHOT_KEY`.
-   CodexBar stores the key in config after you paste it in Settings → Providers → Moonshot / Kimi API.
+1. **API key** stored in `~/.usager/config.json` or supplied via `MOONSHOT_API_KEY` / `MOONSHOT_KEY`.
+   Usager stores the key in config after you paste it in Settings → Providers → Moonshot / Kimi API.
 2. **Region**
    - International: `https://api.moonshot.ai/v1/users/me/balance`
    - China mainland: `https://api.moonshot.cn/v1/users/me/balance`
@@ -43,8 +43,8 @@ separate cleanup so existing user settings are not silently repointed.
 
 ## Key files
 
-- `Sources/CodexBarCore/Providers/Moonshot/MoonshotProviderDescriptor.swift` (descriptor + fetch strategy)
-- `Sources/CodexBarCore/Providers/Moonshot/MoonshotUsageFetcher.swift` (HTTP client + JSON parser)
-- `Sources/CodexBarCore/Providers/Moonshot/MoonshotSettingsReader.swift` (env var resolution)
-- `Sources/CodexBar/Providers/Moonshot/MoonshotProviderImplementation.swift` (settings field + activation logic)
-- `Sources/CodexBar/Providers/Moonshot/MoonshotSettingsStore.swift` (SettingsStore extension)
+- `Sources/UsagerCore/Providers/Moonshot/MoonshotProviderDescriptor.swift` (descriptor + fetch strategy)
+- `Sources/UsagerCore/Providers/Moonshot/MoonshotUsageFetcher.swift` (HTTP client + JSON parser)
+- `Sources/UsagerCore/Providers/Moonshot/MoonshotSettingsReader.swift` (env var resolution)
+- `Sources/Usager/Providers/Moonshot/MoonshotProviderImplementation.swift` (settings field + activation logic)
+- `Sources/Usager/Providers/Moonshot/MoonshotSettingsStore.swift` (SettingsStore extension)

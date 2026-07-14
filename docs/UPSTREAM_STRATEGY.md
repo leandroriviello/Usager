@@ -7,8 +7,8 @@ read_when:
 
 # Multi-Upstream Fork Management Strategy
 
-**Fork:** topoffunnel/CodexBar  
-**Upstream 1:** steipete/CodexBar (original)  
+**Fork:** leandroriviello/Usager
+**Upstream 1:** steipete/CodexBar (original)
 **Upstream 2:** nguyenphutrong/quotio (inspiration source)
 
 ---
@@ -41,7 +41,7 @@ read_when:
 
 ```bash
 # Your fork (origin)
-git remote add origin git@github.com:topoffunnel/CodexBar.git
+git remote add origin git@github.com:leandroriviello/Usager.git
 
 # Original upstream (steipete)
 git remote add upstream git@github.com:steipete/CodexBar.git
@@ -234,7 +234,7 @@ git commit -m "feat: implement feature inspired by quotio
 Inspired by quotio's approach to [feature]:
 https://github.com/nguyenphutrong/quotio/commit/abc123
 
-Implemented independently with CodexBar-specific patterns."
+Implemented independently with Usager-specific patterns."
 ```
 
 ---
@@ -350,7 +350,7 @@ Adds automatic session restoration on app restart.
 Inspired by quotio's approach:
 https://github.com/nguyenphutrong/quotio/blob/main/...
 
-Implemented independently using CodexBar patterns.
+Implemented independently using Usager patterns.
 ```
 
 ---
@@ -383,11 +383,11 @@ Implemented independently using CodexBar patterns.
 git checkout -b feature/my-improvement
 
 # Commit 1: Core improvement (upstream-suitable)
-git add Sources/CodexBarCore/...
+git add Sources/UsagerCore/...
 git commit -m "feat: improve cookie handling"
 
 # Commit 2: Fork-specific enhancements
-git add Sources/CodexBar/About.swift
+git add Sources/Usager/About.swift
 git commit -m "feat: add fork attribution for improvement"
 
 # Merge to main (both commits)
@@ -403,8 +403,8 @@ git cherry-pick <commit-1-hash>  # Only the core improvement
 ### Maintaining Fork Identity
 
 Keep these files fork-specific (never upstream):
-- `Sources/CodexBar/About.swift` (your attribution)
-- `Sources/CodexBar/PreferencesAboutPane.swift` (fork sections)
+- `Sources/Usager/About.swift` (your attribution)
+- `Sources/Usager/PreferencesAboutPane.swift` (fork sections)
 - `README.md` (fork notice)
 - `docs/FORK_*.md` (fork documentation)
 - `FORK_STATUS.md`
@@ -487,7 +487,7 @@ git commit -m "feat: implement multi-account management
 Inspired by quotio's account switching pattern:
 https://github.com/nguyenphutrong/quotio/...
 
-Implemented independently using CodexBar's architecture."
+Implemented independently using Usager's architecture."
 ```
 
 ---
@@ -524,11 +524,11 @@ Implemented independently using CodexBar's architecture."
 ```bash
 # During upstream merge
 git merge upstream/main
-# CONFLICT in Sources/CodexBar/About.swift
+# CONFLICT in Sources/Usager/About.swift
 
 # Keep your fork version for branding files
-git checkout --ours Sources/CodexBar/About.swift
-git add Sources/CodexBar/About.swift
+git checkout --ours Sources/Usager/About.swift
+git add Sources/Usager/About.swift
 
 # Merge other files manually
 # Then continue

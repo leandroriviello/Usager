@@ -39,6 +39,10 @@ Ollama API keys currently do not expire, but they can be revoked from the key se
 
 - API-key mode fetches `https://ollama.com/api/tags` with `Authorization: Bearer <key>` to verify Cloud API access.
 - Cookie mode fetches `https://ollama.com/settings` using browser cookies.
+- Cookie discovery recognizes the current WorkOS AuthKit `wos-session` cookie alongside legacy Ollama and NextAuth
+  session names.
+- Redirects from settings to `/signin` or the WorkOS AuthKit authorization page are treated as expired sessions, so
+  Usager can try the next cookie candidate and show sign-in guidance instead of a parser error.
 - Parses:
   - Plan badge under **Cloud Usage**.
   - **Session usage** and **Weekly usage** percentages.
@@ -48,7 +52,7 @@ Ollama API keys currently do not expire, but they can be revoked from the key se
 
 ### “No Ollama session cookie found”
 
-Sign in at `https://ollama.com/signin` in Chrome, then refresh CodexBar.
+Sign in at `https://ollama.com/signin` in Chrome, then refresh Usager.
 If your active session is only in Safari (or another browser), use **Cookie source → Manual** and paste a cookie header.
 
 ### “Ollama session cookie expired”
