@@ -25,13 +25,19 @@ enum StatusMenuAppearance {
         contentView.wantsLayer = true
         contentView.layer?.backgroundColor = NSColor.black.withAlphaComponent(0.88).cgColor
 
-        for subview in contentView.subviews {
-            guard let effectView = subview as? NSVisualEffectView else { continue }
+        self.applyBlackBase(to: contentView)
+    }
+
+    private static func applyBlackBase(to view: NSView) {
+        if let effectView = view as? NSVisualEffectView {
             effectView.material = .underWindowBackground
             effectView.blendingMode = .withinWindow
             effectView.state = .active
             effectView.wantsLayer = true
-            effectView.layer?.backgroundColor = NSColor.black.withAlphaComponent(0.72).cgColor
+            effectView.layer?.backgroundColor = NSColor.black.withAlphaComponent(0.82).cgColor
+        }
+        for subview in view.subviews {
+            self.applyBlackBase(to: subview)
         }
     }
 }

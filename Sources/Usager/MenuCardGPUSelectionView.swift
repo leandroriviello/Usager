@@ -10,18 +10,14 @@ import SwiftUI
 /// (header, usage bars, storage line). A headless benchmark measured ~3–10 ms per toggle with
 /// spikes past one 120 Hz frame, matching the dropped frames in the bug report.
 ///
-/// This view keeps the SwiftUI content pinned to its normal (unselected) appearance and recreates
-/// the selected look in two GPU-composited steps that never touch the SwiftUI graph:
-///   1. an `NSVisualEffectView` with the native `.selection` material drawn behind the content, and
-///   2. a `CIColorMatrix` content filter that maps the row's pixels to the selected text color —
-///      this matches the existing design, where every element already becomes
-///      `selectedMenuItemTextColor` when highlighted.
+/// This view keeps the SwiftUI content pinned to its normal (unselected) appearance and draws a
+/// subtle brand-green layer behind it. Keeping the foreground unchanged preserves contrast and
+/// avoids the system's pale native menu-selection treatment.
 /// Toggling selection then costs a layer property change (~0.05 ms) rather than a SwiftUI pass.
 @MainActor
 final class GPUSelectionHostingView<Content: View>: NSView, MenuCardHighlighting, MenuCardMeasuring {
     private let hosting: NSHostingView<MenuCardSectionContainerView<Content>>
-    private let selectionView = NSVisualEffectView()
-    private var tintFilter: CIFilter?
+    private let selectionView = NSView()
     private var isRowHighlighted = false
     private var onClick: (() -> Void)?
 
@@ -56,10 +52,8 @@ final class GPUSelectionHostingView<Content: View>: NSView, MenuCardHighlighting
         self.hosting = NSHostingView(rootView: rootView)
         self.allowsMenuHighlight = allowsMenuHighlight
         self.onClick = onClick
-        self.tintFilter = nil
         super.init(frame: .zero)
         self.wantsLayer = true
-        self.refreshTintFilter()
         self.setupSelectionView()
         self.setupHosting()
         if onClick != nil {
@@ -82,11 +76,6 @@ final class GPUSelectionHostingView<Content: View>: NSView, MenuCardHighlighting
 
     override func acceptsFirstMouse(for _: NSEvent?) -> Bool {
         true
-    }
-
-    override func viewDidChangeEffectiveAppearance() {
-        super.viewDidChangeEffectiveAppearance()
-        self.refreshTintFilter()
     }
 
     /// Forward accessibility activation to the click handler, mirroring `MenuCardItemHostingView`.
@@ -114,11 +103,6 @@ final class GPUSelectionHostingView<Content: View>: NSView, MenuCardHighlighting
     func setHighlighted(_ highlighted: Bool) {
         guard self.isRowHighlighted != highlighted else { return }
         self.isRowHighlighted = highlighted
-        // Tint the content to the selected text color via a GPU color matrix; clearing the
-        // filter returns it to its normal palette. No SwiftUI invalidation happens here.
-        if let tintFilter {
-            self.hosting.layer?.filters = highlighted ? [tintFilter] : []
-        }
         // Crossfade the selection background instead of hard-cutting it. As the wheel moves the
         // highlight, the leaving row fades out while the arriving row fades in, which reads as the
         // selection gliding between rows rather than teleporting. The fade is short so fast flicks
@@ -153,12 +137,9 @@ final class GPUSelectionHostingView<Content: View>: NSView, MenuCardHighlighting
     #endif
 
     private func setupSelectionView() {
-        self.selectionView.material = .selection
-        self.selectionView.blendingMode = .withinWindow
-        self.selectionView.state = .active
-        self.selectionView.isEmphasized = true
         self.selectionView.wantsLayer = true
         self.selectionView.layer?.masksToBounds = true
+        self.selectionView.layer?.backgroundColor = UsagerBrand.signalNS.withAlphaComponent(0.16).cgColor
         // Visibility is driven by layer opacity (crossfaded in `setHighlighted`) rather than
         // `isHidden`, so the selection can glide in and out instead of hard-cutting.
         self.selectionView.layer?.opacity = 0
@@ -181,33 +162,5 @@ final class GPUSelectionHostingView<Content: View>: NSView, MenuCardHighlighting
     @objc private func handlePrimaryClick(_ recognizer: NSClickGestureRecognizer) {
         guard recognizer.state == .ended else { return }
         self.onClick?()
-    }
-
-    /// Maps every pixel's RGB to the system selected-menu-item text color while preserving alpha,
-    /// reproducing the appearance the SwiftUI rows already adopt when highlighted. The bias is read
-    /// from `NSColor.selectedMenuItemTextColor` rather than hard-coded to white so graphite/
-    /// high-contrast/accessibility appearances tint correctly. Core Image runs this on the GPU
-    /// (Metal), so it composites for free per frame.
-    private func refreshTintFilter() {
-        self.tintFilter = Self.makeSelectedTextTintFilter(appearance: self.effectiveAppearance)
-        if self.isRowHighlighted {
-            self.hosting.layer?.filters = self.tintFilter.map { [$0] } ?? []
-        }
-    }
-
-    private static func makeSelectedTextTintFilter(appearance: NSAppearance) -> CIFilter? {
-        guard let filter = CIFilter(name: "CIColorMatrix") else { return nil }
-        var tint: NSColor = .white
-        appearance.performAsCurrentDrawingAppearance {
-            tint = NSColor.selectedMenuItemTextColor.usingColorSpace(.deviceRGB) ?? .white
-        }
-        filter.setValue(CIVector(x: 0, y: 0, z: 0, w: 0), forKey: "inputRVector")
-        filter.setValue(CIVector(x: 0, y: 0, z: 0, w: 0), forKey: "inputGVector")
-        filter.setValue(CIVector(x: 0, y: 0, z: 0, w: 0), forKey: "inputBVector")
-        filter.setValue(CIVector(x: 0, y: 0, z: 0, w: 1), forKey: "inputAVector")
-        filter.setValue(
-            CIVector(x: tint.redComponent, y: tint.greenComponent, z: tint.blueComponent, w: 0),
-            forKey: "inputBiasVector")
-        return filter
     }
 }

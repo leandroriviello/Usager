@@ -77,7 +77,7 @@ struct OverviewMenuCardRowView: View {
         .padding(.horizontal, UsageMenuCardLayout.horizontalPadding)
         .padding(.vertical, 10)
         .frame(width: self.width, alignment: .leading)
-        .background(Color.black.opacity(self.isHighlighted ? 0.72 : 0.9))
+        .background(Color.black.opacity(self.isHighlighted ? 0.68 : 0.82))
     }
 }
 
